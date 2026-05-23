@@ -23,13 +23,21 @@ SECRET_KEY = os.getenv(
 # Use DEBUG=True only when environment variable says True
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-# Allowed hosts
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "testserver",
     ".ondigitalocean.app",
     "whale-app-pcttw.ondigitalocean.app",
+    "canna-pharmskiosk.com",
+    "www.canna-pharmskiosk.com",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ondigitalocean.app",
+    "https://whale-app-pcttw.ondigitalocean.app",
+    "https://canna-pharmskiosk.com",
+    "https://www.canna-pharmskiosk.com",
 ]
 
 # If you want to allow all hosts while testing, uncomment this:
