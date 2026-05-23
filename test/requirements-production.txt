@@ -1,0 +1,47 @@
+# Ocean City Hemp Kiosk - Production Requirements
+# This file includes additional dependencies for production deployment
+
+# Core Django requirements
+Django==5.2.1
+Pillow==10.4.0
+python-dotenv==1.0.1
+
+# Production database
+psycopg2-binary==2.9.9
+
+# Production web server
+gunicorn==22.0.0
+
+# Caching (optional but recommended)
+redis==5.0.7
+django-redis==5.4.0
+
+# Security enhancements
+django-security==0.19.0
+django-csp==3.8
+
+# Performance monitoring
+django-debug-toolbar==4.4.6  # Remove in production
+sentry-sdk[django]==2.8.0
+
+# Email backend improvements
+django-ses==4.1.0  # For AWS SES (optional)
+
+# Backup utilities
+django-dbbackup==4.1.0
+
+# Health checks
+django-health-check==3.18.3
+
+# Static file optimization
+whitenoise==6.7.0
+
+# Environment and configuration
+python-decouple==3.8
+
+# Logging improvements
+structlog==24.2.0
+
+# Development tools (remove in production)
+# django-extensions==3.2.3
+# werkzeug==3.0.3

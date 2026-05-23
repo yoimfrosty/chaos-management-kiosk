@@ -1,0 +1,439 @@
+{% extends "kiosk/base.html" %}
+{% load static %}
+
+{% block title %}Special Offers - Ocean City Hemp{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+
+
+<div class="w-full px-4">
+    <div class="main-content">
+        <!-- Special Offers Grid -->
+        <div class="specials-grid">
+            {% for offer_data in offers_with_products %}
+            <div class="special-offer-card">
+                <div class="offer-header">
+                    <svg class="offer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <!-- Cannabis Leaf Icon -->
+                        <path
+                            d="M12 2L10.5 4.5C9.8 4.2 8.9 4.1 8 4.5L7 3.5C6.5 3 6.5 2.2 7 1.7C7.5 1.2 8.3 1.2 8.8 1.7L10.5 3.4C11.2 2.8 11.8 2.2 12 2Z"
+                            fill="currentColor" opacity="0.9" />
+                        <path
+                            d="M12 2L13.5 4.5C14.2 4.2 15.1 4.1 16 4.5L17 3.5C17.5 3 17.5 2.2 17 1.7C16.5 1.2 15.7 1.2 15.2 1.7L13.5 3.4C12.8 2.8 12.2 2.2 12 2Z"
+                            fill="currentColor" opacity="0.9" />
+                        <path
+                            d="M12 3.5C10.8 5.2 9.2 6.5 7.5 7L6 6C5.2 5.6 4.2 5.8 3.6 6.6C3 7.4 3.2 8.4 4 9L5.5 9.8C7.2 10.5 8.5 11.8 9.2 13.5L12 22L14.8 13.5C15.5 11.8 16.8 10.5 18.5 9.8L20 9C20.8 8.4 21 7.4 20.4 6.6C19.8 5.8 18.8 5.6 18 6L16.5 7C14.8 6.5 13.2 5.2 12 3.5Z"
+                            fill="currentColor" />
+                        <path
+                            d="M11 6L9.5 7.5C8.8 7.2 7.9 7.3 7.2 7.8L6.5 7.2C6.1 6.8 6.1 6.2 6.5 5.8C6.9 5.4 7.5 5.4 7.9 5.8L8.5 6.4C9.2 6 9.9 5.8 10.6 5.9L11 6Z"
+                            fill="currentColor" opacity="0.7" />
+                        <path
+                            d="M13 6L14.5 7.5C15.2 7.2 16.1 7.3 16.8 7.8L17.5 7.2C17.9 6.8 17.9 6.2 17.5 5.8C17.1 5.4 16.5 5.4 16.1 5.8L15.5 6.4C14.8 6 14.1 5.8 13.4 5.9L13 6Z"
+                            fill="currentColor" opacity="0.7" />
+                        <path
+                            d="M9.5 8.5L9.2 8.2M10.8 10.2L10.5 9.9M8.2 11.5L7.9 11.2M14.5 8.5L14.8 8.2M13.2 10.2L13.5 9.9M15.8 11.5L16.1 11.2"
+                            stroke="currentColor" stroke-width="0.5" fill="none" opacity="0.8" />
+                        <path d="M12 7V15M10.5 9L12 11M13.5 9L12 11M9.5 11L10.5 13M14.5 11L13.5 13"
+                            stroke="currentColor" stroke-width="0.3" fill="none" opacity="0.6" />
+                    </svg>
+                    <h3 class="offer-title">{{ offer_data.offer.title }}</h3>
+                </div>
+
+                <div class="offer-details">
+                    <p class="offer-description">{{ offer_data.offer.description }}</p>
+
+                    <div class="offer-discount">
+                        {% if offer_data.offer.discount_type == "Percentage" %}
+                        <span class="discount-value">{{ offer_data.offer.discount_value }}% OFF</span>
+                        {% elif offer_data.offer.discount_type == "Fixed Amount" %}
+                        <span class="discount-value">${{ offer_data.offer.discount_value }} OFF</span>
+                        {% else %}
+                        <span class="discount-value">${{ offer_data.offer.discount_value }} OFF TOTAL</span>
+                        {% endif %}
+                    </div>
+
+                    {% if offer_data.offer.minimum_spend %}
+                    <p class="offer-minimum">Minimum spend: ${{ offer_data.offer.minimum_spend }}</p>
+                    {% endif %}
+
+                    {% if offer_data.offer.end_date %}
+                    <p class="offer-expires">Expires: {{ offer_data.offer.end_date|date:"M d, Y" }}</p>
+                    {% endif %}
+
+                    <!-- Eligible Products Section -->
+                    {% if offer_data.applicable_products %}
+                    <div class="offer-products">
+                        <h4>🎯 Eligible Products for this Deal:</h4>
+                        {% for product in offer_data.applicable_products %}
+                        <div class="featured-product">
+                            <div class="product-info">
+                                <span class="product-name">{{ product.name }}</span>
+                                <div class="product-details-row">
+                                    {% if product.thc_content %}
+                                    <span class="product-details">THC: {{ product.thc_content }}%</span>
+                                    {% endif %}
+                                    {% if product.cbd_content %}
+                                    <span class="product-details">CBD: {{ product.cbd_content }}%</span>
+                                    {% endif %}
+                                    {% if product.flower_type and product.flower_type != 'None' %}
+                                    <span class="product-details">{{ product.get_flower_type_display }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-price">${{ product.price }}</span>
+                                {% if offer_data.offer.discount_type == "Percentage" %}
+                                <span class="discounted-price">Save {{ offer_data.offer.discount_value }}%</span>
+                                {% elif offer_data.offer.discount_type == "Fixed Amount" %}
+                                <span class="discounted-price">Save ${{ offer_data.offer.discount_value }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% elif offer_data.offer.applicable_categories.exists %}
+                    <div class="offer-products">
+                        <h4>🏷️ Applies to Categories:</h4>
+                        <div class="category-list">
+                            {% for category in offer_data.offer.applicable_categories.all %}
+                            <span class="category-tag">{{ category.emoji }} {{ category.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">All products in these categories qualify for this discount</p>
+                    </div>
+                    {% else %}
+                    <div class="offer-products">
+                        <h4>✨ Applies to ALL products in store!</h4>
+                        <p class="text-sm text-green-600">This discount works on any item in our inventory.</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- How to Apply Section -->
+                    <div class="how-to-apply">
+                        <h5>📱 How to get this discount:</h5>
+                        <p>Visit our <a href="{% url 'kiosk:product_list' %}" class="browse-link">Browse Products</a> page to add eligible items to your cart and apply this discount during checkout.</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-offers">
+                <svg class="no-offers-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <!-- Cannabis Leaf Icon -->
+                    <path
+                        d="M12 2L10.5 4.5C9.8 4.2 8.9 4.1 8 4.5L7 3.5C6.5 3 6.5 2.2 7 1.7C7.5 1.2 8.3 1.2 8.8 1.7L10.5 3.4C11.2 2.8 11.8 2.2 12 2Z"
+                        fill="currentColor" opacity="0.9" />
+                    <path
+                        d="M12 2L13.5 4.5C14.2 4.2 15.1 4.1 16 4.5L17 3.5C17.5 3 17.5 2.2 17 1.7C16.5 1.2 15.7 1.2 15.2 1.7L13.5 3.4C12.8 2.8 12.2 2.2 12 2Z"
+                        fill="currentColor" opacity="0.9" />
+                    <path
+                        d="M12 3.5C10.8 5.2 9.2 6.5 7.5 7L6 6C5.2 5.6 4.2 5.8 3.6 6.6C3 7.4 3.2 8.4 4 9L5.5 9.8C7.2 10.5 8.5 11.8 9.2 13.5L12 22L14.8 13.5C15.5 11.8 16.8 10.5 18.5 9.8L20 9C20.8 8.4 21 7.4 20.4 6.6C19.8 5.8 18.8 5.6 18 6L16.5 7C14.8 6.5 13.2 5.2 12 3.5Z"
+                        fill="currentColor" />
+                    <path
+                        d="M11 6L9.5 7.5C8.8 7.2 7.9 7.3 7.2 7.8L6.5 7.2C6.1 6.8 6.1 6.2 6.5 5.8C6.9 5.4 7.5 5.4 7.9 5.8L8.5 6.4C9.2 6 9.9 5.8 10.6 5.9L11 6Z"
+                        fill="currentColor" opacity="0.7" />
+                    <path
+                        d="M13 6L14.5 7.5C15.2 7.2 16.1 7.3 16.8 7.8L17.5 7.2C17.9 6.8 17.9 6.2 17.5 5.8C17.1 5.4 16.5 5.4 16.1 5.8L15.5 6.4C14.8 6 14.1 5.8 13.4 5.9L13 6Z"
+                        fill="currentColor" opacity="0.7" />
+                    <path
+                        d="M9.5 8.5L9.2 8.2M10.8 10.2L10.5 9.9M8.2 11.5L7.9 11.2M14.5 8.5L14.8 8.2M13.2 10.2L13.5 9.9M15.8 11.5L16.1 11.2"
+                        stroke="currentColor" stroke-width="0.5" fill="none" opacity="0.8" />
+                    <path d="M12 7V15M10.5 9L12 11M13.5 9L12 11M9.5 11L10.5 13M14.5 11L13.5 13" stroke="currentColor"
+                        stroke-width="0.3" fill="none" opacity="0.6" />
+                </svg>
+                <h3>No Active Specials</h3>
+                <p>Check back soon for exciting deals and offers!</p>
+                <a href="{% url 'kiosk:product_list' %}" class="btn-browse">Browse Products</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Navigation Icons Styles */
+    .nav-icon-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        color: #64748b;
+    }
+
+    .nav-icon-link:hover {
+        background: linear-gradient(135deg, var(--ocean-green) 0%, var(--ocean-blue) 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .nav-icon-link.active {
+        background: linear-gradient(135deg, var(--ocean-green) 0%, var(--ocean-blue) 100%);
+        color: white;
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Status Badge */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .status-success {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        border: 1px solid #10b981;
+    }
+
+    .specials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .special-offer-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        border: 2px solid #e5e7eb;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .special-offer-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.2);
+        border-color: #22c55e;
+    }
+
+    .offer-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .offer-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        color: #22c55e;
+    }
+
+    .offer-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #1f2937;
+        margin: 0;
+    }
+
+    .offer-description {
+        color: #6b7280;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .offer-discount {
+        text-align: center;
+        margin: 1.5rem 0;
+    }
+
+    .discount-value {
+        display: inline-block;
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .offer-minimum,
+    .offer-expires {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0.5rem 0;
+    }
+
+    .offer-products {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .offer-products h4 {
+        margin-bottom: 1rem;
+        color: #1f2937;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .featured-product {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        background: #f9fafb;
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+        transition: background-color 0.3s ease;
+        border: 1px solid #f3f4f6;
+    }
+
+    .featured-product:hover {
+        background: #f3f4f6;
+        border-color: #e5e7eb;
+    }
+
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex: 1;
+    }
+
+    .product-name {
+        font-weight: 600;
+        color: #1f2937;
+        font-size: 0.95rem;
+    }
+
+    .product-details-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .product-details {
+        font-size: 0.75rem;
+        color: #6b7280;
+        background: #e5e7eb;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+
+    .product-pricing {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.25rem;
+    }
+
+    .product-price {
+        font-weight: bold;
+        color: #6b7280;
+        font-size: 0.875rem;
+        text-decoration: line-through;
+    }
+
+    .discounted-price {
+        font-weight: bold;
+        color: #22c55e;
+        font-size: 1rem;
+    }
+
+    .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .category-tag {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .how-to-apply {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    .how-to-apply h5 {
+        margin-bottom: 0.5rem;
+        color: #1f2937;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .how-to-apply p {
+        color: #6b7280;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .browse-link {
+        color: #22c55e;
+        font-weight: 600;
+        text-decoration: underline;
+        transition: color 0.2s ease;
+    }
+
+    .browse-link:hover {
+        color: #16a34a;
+    }
+
+    .no-offers {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 15px;
+        border: 2px dashed #e5e7eb;
+    }
+
+    .no-offers-icon {
+        width: 4rem;
+        height: 4rem;
+        color: #9ca3af;
+        margin-bottom: 1rem;
+    }
+
+    .no-offers h3 {
+        color: #6b7280;
+        margin-bottom: 0.5rem;
+    }
+
+    .no-offers p {
+        color: #9ca3af;
+        margin-bottom: 2rem;
+    }
+
+    .btn-browse {
+        display: inline-block;
+        background: #22c55e;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+
+    .btn-browse:hover {
+        background: #16a34a;
+    }
+</style>
+
+{% endblock %}

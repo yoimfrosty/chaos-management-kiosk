@@ -1,0 +1,40 @@
+<!-- Enhanced Right Panel - Your Order -->
+<div class="w-80 bg-gradient-to-b from-white to-gray-50 border-l border-gray-200 shadow-lg" id="cart-panel">
+    <div class="p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Your Order</h2>
+            <div
+                class="w-8 h-8 bg-gradient-to-r from-ocean-green to-teal-600 rounded-full flex items-center justify-center">
+                <span class="text-white text-sm font-bold" id="cart-count">0</span>
+            </div>
+        </div>
+
+        <!-- Cart Items Container -->
+        <div id="cart-items" class="space-y-3 mb-6 max-h-96 overflow-y-auto">
+            <!-- Cart items will be populated by JavaScript -->
+        </div>
+
+        <!-- Cart Summary -->
+        <div id="cart-summary" class="border-t border-gray-200 pt-4 mb-6">
+            <!-- Cart summary will be populated by JavaScript -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-3">
+            <button id="complete-order-btn"
+                class="w-full button-primary disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                Complete Order
+            </button>
+            <button id="clear-cart-btn"
+                class="w-full button-outline hover:bg-red-50 hover:text-red-600 hover:border-red-300">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                </svg>
+                Clear Order
+            </button>
+        </div>
+    </div>
+</div>

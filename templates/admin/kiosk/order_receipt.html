@@ -1,0 +1,378 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    /* Real receipt styling - black text on white background */
+    body {
+        background: #f5f5f5;
+    }
+    
+    .receipt-container {
+        max-width: 320px;
+        margin: 20px auto;
+        background: white;
+        border: none;
+        font-family: 'Courier New', monospace;
+        font-size: 11px;
+        line-height: 1.2;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .receipt-header {
+        background: white;
+        color: #000 !important;
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px dashed #000;
+    }
+    
+    .receipt-header h1 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: bold;
+        color: #000 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .receipt-header p {
+        margin: 2px 0;
+        font-size: 10px;
+        color: #000 !important;
+        text-transform: uppercase;
+    }
+    
+    .receipt-header {
+        background: linear-gradient(135deg, #059669, #047857);
+        color: #ffffff !important;
+        padding: 25px;
+        text-align: center;
+        border-bottom: 3px solid #065f46;
+    }
+    
+    .receipt-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: bold;
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 0.5px;
+    }
+    
+    .receipt-header p {
+        margin: 8px 0 0 0;
+        opacity: 1;
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+        color: #ffffff !important;
+    }
+    
+    .receipt-content {
+        padding: 10px;
+        color: #000 !important;
+        background: white;
+    }
+    
+    .receipt-section {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dashed #000;
+    }
+    
+    .receipt-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .section-title {
+        font-size: 11px;
+        font-weight: bold;
+        color: #000 !important;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+    
+    .order-info {
+        color: #000 !important;
+    }
+    
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 1px 0;
+        color: #000 !important;
+    }
+    
+    .info-label {
+        color: #000 !important;
+        text-transform: uppercase;
+    }
+    
+    .info-value {
+        color: #000 !important;
+    }
+    
+    .customer-info {
+        background: white;
+        color: #000 !important;
+    }
+    
+    .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 5px;
+        color: #000 !important;
+        background: white;
+    }
+    
+    .items-table th {
+        background: white;
+        padding: 3px;
+        text-align: left;
+        font-weight: bold;
+        color: #000 !important;
+        border-bottom: 1px solid #000;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    
+    .items-table td {
+        padding: 3px;
+        color: #000 !important;
+        background: white;
+        font-size: 10px;
+    }
+    
+    .items-table tr:hover {
+        background: white !important;
+    }
+    
+    .totals-section {
+        background: white;
+        color: #000 !important;
+        margin-top: 5px;
+    }
+    
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 1px 0;
+        color: #000 !important;
+        font-size: 11px;
+    }
+    
+    .total-row.final {
+        border-top: 1px solid #000;
+        padding-top: 3px;
+        margin-top: 3px;
+        font-weight: bold;
+        font-size: 12px;
+        color: #000 !important;
+        text-transform: uppercase;
+    }
+    
+    .print-section {
+        text-align: center;
+        margin: 20px 0;
+        padding: 20px;
+        background: #f5f5f5;
+    }
+    
+    .print-btn {
+        background: #000;
+        color: #fff !important;
+        border: 2px solid #000;
+        padding: 10px 20px;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 0 5px;
+        text-transform: uppercase;
+    }
+    
+    .print-btn:hover {
+        background: #333;
+        color: #fff !important;
+    }
+    
+    .print-btn.secondary {
+        background: #fff;
+        color: #000 !important;
+        border: 2px solid #000;
+    }
+    
+    .print-btn.secondary:hover {
+        background: #f0f0f0;
+        color: #000 !important;
+    }
+    
+    @media print {
+        .print-section, .receipt-header, nav, .breadcrumbs {
+            display: none !important;
+        }
+        
+        .receipt-container {
+            box-shadow: none;
+            border: none;
+            margin: 0;
+            max-width: none;
+        }
+        
+        body {
+            font-size: 12px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="receipt-container">
+    <div class="receipt-header">
+        <h1>OCEAN CITY HEMP</h1>
+        <p>Premium Cannabis Experience</p>
+        <p>=====================================</p>
+        <p>RECEIPT</p>
+    </div>
+    
+    <div class="receipt-content">
+        <!-- Order Information -->
+        <div class="receipt-section">
+            <div class="section-title">ORDER DETAILS</div>
+            <div class="order-info">
+                <div class="info-item">
+                    <span class="info-label">ORDER #:</span>
+                    <span class="info-value">{{ order.order_number }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">STATUS:</span>
+                    <span class="info-value">{{ order.get_status_display|upper }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">DATE:</span>
+                    <span class="info-value">{{ order.created_at|date:"m/d/Y H:i" }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Customer Information -->
+        <div class="receipt-section">
+            <div class="section-title">CUSTOMER</div>
+            <div class="customer-info">
+                <div class="info-item">
+                    <span class="info-label">NAME:</span>
+                    <span class="info-value">{{ order.customer_name|upper|default:"NOT PROVIDED" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">CONTACT:</span>
+                    <span class="info-value">{{ order.customer_contact|default:"NOT PROVIDED" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">AGE:</span>
+                    <span class="info-value">{% if order.customer_birthdate %}{{ order.get_customer_age }} YRS{% else %}NOT PROVIDED{% endif %}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">DOB:</span>
+                    <span class="info-value">{% if order.customer_birthdate %}{{ order.customer_birthdate|date:"m/d/Y" }}{% else %}NOT PROVIDED{% endif %}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Items -->
+        <div class="receipt-section">
+            <div class="section-title">ITEMS</div>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>QTY</th>
+                        <th>PRICE</th>
+                        <th>TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>
+                            {{ item.product.name|upper }}
+                            {% if item.product.thc_content or item.product.cbd_content %}
+                            <br>
+                            {% if item.product.thc_content %}THC:{{ item.product.thc_content }}%{% endif %}
+                            {% if item.product.thc_content and item.product.cbd_content %} {% endif %}
+                            {% if item.product.cbd_content %}CBD:{{ item.product.cbd_content }}%{% endif %}
+                            {% endif %}
+                        </td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price_at_purchase }}</td>
+                        <td>${{ item.get_total_item_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Order Totals -->
+        <div class="receipt-section">
+            <div class="section-title">TOTALS</div>
+            <div class="totals-section">
+                <div class="total-row">
+                    <span>SUBTOTAL:</span>
+                    <span>${{ order.subtotal }}</span>
+                </div>
+                {% if order.discount_amount and order.discount_amount > 0 %}
+                <div class="total-row">
+                    <span>DISCOUNT:</span>
+                    <span>-${{ order.discount_amount }}</span>
+                </div>
+                {% endif %}
+                <div class="total-row">
+                    <span>TAX ({% widthratio order.tax_rate 1 100 %}%):</span>
+                    <span>${{ order.tax_amount }}</span>
+                </div>
+                <div class="total-row final">
+                    <span>TOTAL:</span>
+                    <span>${{ order.total_amount }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Receipt Footer -->
+        <div class="receipt-section" style="text-align: center; border-bottom: none;">
+            <p>=====================================</p>
+            <p>THANK YOU FOR CHOOSING</p>
+            <p>OCEAN CITY HEMP!</p>
+            <p>=====================================</p>
+            <p>{{ order.created_at|date:"m/d/Y H:i" }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Print Section -->
+<div class="print-section">
+    <button class="print-btn" onclick="window.print()">
+        PRINT RECEIPT
+    </button>
+    <a href="{% url 'admin:kiosk_order_change' order.id %}" class="print-btn secondary" style="text-decoration: none; display: inline-block; color: #000 !important;">
+        BACK TO ORDER
+    </a>
+</div>
+
+<script>
+// Auto-focus print button for keyboard users
+document.addEventListener('DOMContentLoaded', function() {
+    // Add keyboard shortcut for printing
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+            e.preventDefault();
+            window.print();
+        }
+    });
+});
+</script>
+{% endblock %}

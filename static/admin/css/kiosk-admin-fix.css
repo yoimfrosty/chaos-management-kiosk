@@ -1,0 +1,219 @@
+/* Ocean City Hemp Kiosk Admin Custom Styles - Override file */
+
+/* Critical reset to prevent kiosk app interference */
+body {
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+    color: #333 !important;
+    background: #f8f9fa !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    direction: ltr !important;
+    position: static !important;
+    min-height: 100vh !important;
+}
+
+/* Remove kiosk background effects */
+body::before, body::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Ensure admin header is properly styled */
+#header {
+    background: #417690 !important;
+    color: #ffc !important;
+    height: auto !important;
+    padding: 0 !important;
+    position: relative !important;
+    overflow: visible !important;
+    clear: both !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
+#branding {
+    float: left !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#branding h1 {
+    padding: 8px 10px !important;
+    margin: 0 !important;
+    font-weight: normal !important;
+    font-size: 18px !important;
+    color: #f4f2f0 !important;
+    line-height: 1.2 !important;
+}
+
+#branding h1 a:link, #branding h1 a:visited {
+    color: #f4f2f0 !important;
+    text-decoration: none !important;
+}
+
+#user-tools {
+    float: right !important;
+    padding: 1.2rem !important;
+    font-size: 11px !important;
+    text-align: right !important;
+    margin: 0 !important;
+    color: #ffc !important;
+    clear: none !important;
+}
+
+/* Container and layout fixes */
+#container {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #fff !important;
+    clear: both !important;
+}
+
+#content {
+    padding: 20px 40px !important;
+    margin: 0 !important;
+    background: #fff !important;
+    position: relative !important;
+    clear: both !important;
+}
+
+#content-main {
+    float: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    background: #79aec8 !important;
+    padding: 10px 40px !important;
+    border: none !important;
+    font-size: 11px !important;
+    color: #c4dce8 !important;
+    text-align: left !important;
+    margin: 0 !important;
+    clear: both !important;
+}
+
+/* Hide all kiosk-specific elements */
+.modern-header, 
+.category-nav, 
+.fixed-action-bar, 
+.toast-container, 
+.order-popup,
+.toast,
+.card,
+.card-elevated,
+.button-primary {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Ensure tables display correctly */
+table {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
+    margin: 0 !important;
+    position: static !important;
+}
+
+#result_list th, 
+#result_list td {
+    padding: 8px 10px !important;
+    border-bottom: 1px solid #ddd !important;
+    text-align: left !important;
+    vertical-align: top !important;
+    background: #fff !important;
+    color: #333 !important;
+    position: static !important;
+}
+
+/* Button fixes */
+.button, 
+input[type=submit], 
+input[type=button], 
+.submit-row input {
+    background: #417690 !important;
+    padding: 10px 15px !important;
+    border: 1px solid #205067 !important;
+    border-radius: 4px !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    font-size: 12px !important;
+    line-height: normal !important;
+    margin: 0 !important;
+    display: inline-block !important;
+    position: static !important;
+}
+
+/* Reset all positioning and z-index conflicts */
+* {
+    position: static !important;
+    z-index: auto !important;
+}
+
+#header {
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Prevent any fixed positioning from kiosk app */
+.fixed-action-bar,
+.modern-header,
+.toast,
+.order-popup {
+    position: static !important;
+    display: none !important;
+}
+
+/* Ensure forms work properly */
+.form-row {
+    overflow: hidden !important;
+    padding: 10px !important;
+    font-size: 12px !important;
+    border-bottom: 1px solid #eee !important;
+    margin: 0 !important;
+    clear: both !important;
+    position: static !important;
+}
+
+/* Clear any float issues */
+.clearfix::after,
+#header::after,
+#content::after {
+    content: "" !important;
+    display: table !important;
+    clear: both !important;
+}
+
+/* Ensure changelist works */
+#changelist {
+    position: relative !important;
+    width: 100% !important;
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    clear: both !important;
+}
+
+/* Remove any animations or transitions that might cause issues */
+*, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Only allow necessary transitions for buttons */
+.button, input[type=submit], input[type=button] {
+    transition: background-color 0.2s ease !important;
+}

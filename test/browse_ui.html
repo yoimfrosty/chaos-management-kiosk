@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean City Hemp Shop Kiosk</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        /* Header Specific */
+        .header-top {
+            background-color: #06b6d4; /* Cyan color from image */
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+        }
+        .header-main {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom-left-radius: 1.5rem;
+            border-bottom-right-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .age-verification-banner {
+            background-color: #dcfce7; /* Light green */
+            color: #16a34a; /* Dark green */
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .nav-bar-below-header {
+            background-color: #f0fdf4; /* Very light green */
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .nav-bar-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #4b5563; /* Gray text */
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .nav-bar-link i {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+        .nav-bar-link:hover {
+            color: #10b981; /* Green on hover */
+        }
+        .age-verified-btn {
+            background-color: #10b981; /* Green */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .welcome-btn {
+            background-color: #3b82f6; /* Blue */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+
+
+        /* Main Content Grid Layout */
+        .main-grid-container {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column */
+            gap: 1.5rem;
+            flex-grow: 1;
+        }
+        @media (min-width: 1024px) { /* Adjust for larger screens */
+            .main-grid-container {
+                grid-template-columns: 0.75fr 2fr 1fr; /* Left Nav, Products, Right Order */
+            }
+        }
+        @media (min-width: 1280px) { /* Further adjust for larger screens */
+            .main-grid-container {
+                grid-template-columns: 0.5fr 3fr 1fr; /* Adjust ratios as needed */
+            }
+        }
+
+        /* Left Navigation (Categories & Filters) */
+        .left-nav-panel {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .nav-section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-category-item, .filter-type-pill {
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: #4b5563;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-category-item:hover, .filter-type-pill:hover {
+            background-color: #e0f2f7; /* Light cyan hover */
+        }
+        .nav-category-item.selected {
+            background-color: #10b981; /* Green selected */
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .nav-category-item.selected i {
+            color: white; /* Ensure icon is white when selected */
+        }
+        .filter-type-pill {
+            background-color: #e0f2f7; /* Light blue-green */
+            color: #0693a7; /* Darker blue-green */
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+        }
+        .filter-type-pill.selected {
+            background-color: #06b6d4; /* Solid Cyan */
+            color: white;
+        }
+
+        /* Product Display Area */
+        .product-display-panel {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow-y: auto;
+            max-height: calc(100vh - 20rem); /* Adjust based on header/footer size */
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+            gap: 1.5rem;
+        }
+
+        /* Product Card Styling (Detailed as per image) */
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #1f2937;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease-in-out;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            text-align: left; /* Ensure text aligns left within card */
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.2), 0 6px 8px -3px rgba(0, 0, 0, 0.08);
+        }
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 10rem; /* Adjusted height for consistency */
+            background-color: #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 1.5rem;
+            overflow: hidden;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            margin-bottom: 0.75rem; /* Space below image */
+        }
+        .product-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-image-container .info-icon {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #374151;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        .product-details {
+            padding: 0 1.25rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .product-name {
+            font-size: 1.25rem; /* Adjusted for card size */
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 0.1rem;
+            text-align: left;
+            width: 100%;
+        }
+        .product-price-display {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            width: 100%;
+        }
+        .product-type-short {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .pill-label-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem; /* Smaller gap for pills */
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+        .pill-label {
+            padding: 0.25rem 0.6rem; /* Smaller padding */
+            border-radius: 9999px;
+            font-size: 0.75rem; /* Smaller font */
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .thc-cbd-pill {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        .strain-pill {
+            background-color: #f3e8ff;
+            color: #9333ea;
+        }
+
+        .add-to-order-button-card {
+            background: linear-gradient(145deg, #10b981, #059669);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 0.9rem; /* Adjusted font size */
+            box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+            width: calc(100% - 2.5rem); /* Adjust width to account for card padding */
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .add-to-order-button-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 8px -2px rgba(0, 0, 0, 0.2), 0 2px 3px -1px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Right Order Summary */
+        .order-summary-panel {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+        }
+        .order-summary-panel h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .order-empty-message {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        .order-empty-message img {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 0.5rem auto;
+        }
+        .order-item-list {
+            flex-grow: 1;
+            margin-bottom: 1rem;
+            overflow-y: auto;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+        .order-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .order-item-actions button {
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        .order-item-actions button:hover {
+            background-color: #e5e7eb;
+        }
+        .order-item .remove-item-btn {
+            color: #ef4444; /* Red for remove */
+            background: none;
+            border: none;
+            font-size: 1rem;
+        }
+        .order-item .remove-item-btn:hover {
+            color: #dc2626;
+        }
+
+        .order-totals {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #374151;
+        }
+        .order-total-row.total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-top: 1rem;
+        }
+        .order-total-row.total span:last-child {
+            color: #10b981; /* Green total */
+        }
+
+        .order-action-button {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .complete-order-btn {
+            background: linear-gradient(145deg, #10b981, #059669);
+            color: white;
+        }
+        .complete-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+        }
+        .clear-order-btn {
+            background-color: #f3f4f6;
+            color: #ef4444; /* Red */
+            border: 1px solid #ef4444;
+            margin-top: 0.75rem;
+        }
+        .clear-order-btn:hover {
+            background-color: #fee2e2; /* Light red */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+        }
+
+        /* --- Floating Actions --- */
+        .floating-left-actions {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 50;
+        }
+
+        /* This container is for the horizontal buttons at the bottom right */
+        .fixed-bottom-right-actions {
+            position: fixed;
+            bottom: 0; /* Position at the very bottom */
+            right: 0;
+            left: 0; /* Span the whole width for alignment */
+            padding: 1rem;
+            background-color: #ffffff; /* Or transparent if desired */
+            display: flex;
+            justify-content: flex-end; /* Align to the right */
+            align-items: center;
+            gap: 1rem; /* Space between buttons */
+            z-index: 50; /* Above regular content */
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding-right: 2rem; /* Give some right padding */
+        }
+
+
+        .floating-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 3.5rem; /* Consistent height for all floating buttons */
+            font-weight: bold;
+            color: white;
+            border-radius: 9999px; /* Pill shape */
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .floating-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Specific styles for Refresh button (left) */
+        .refresh-btn-left {
+            width: 3.5rem; /* Small, square pill */
+            font-size: 1.5rem;
+            background: #d97706; /* Solid Amber */
+        }
+        .refresh-btn-left:hover {
+            background: #b45309; /* Darker amber on hover */
+        }
+
+        /* Specific styles for right fixed bottom buttons (expanded by default for text) */
+        .fixed-bottom-right-btn {
+            padding: 0.5rem 1.25rem; /* Padding for pill shape with text */
+            font-size: 1.125rem; /* Slightly smaller font for text */
+            min-width: 3.5rem; /* Ensures a minimum size even when text isn't fully visible */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; /* Space between icon and text */
+            height: 3.5rem;
+            border-radius: 9999px; /* Pill shape */
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .fixed-bottom-right-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .assistance-btn-fixed-bottom {
+            background: #2563eb; /* Solid Blue */
+        }
+        .assistance-btn-fixed-bottom:hover {
+            background: #1d4ed8; /* Darker blue on hover */
+        }
+
+        .view-order-btn-fixed-bottom {
+            background: #06b6d4; /* Solid Cyan */
+        }
+        .view-order-btn-fixed-bottom:hover {
+            background: #0891b2; /* Darker cyan on hover */
+        }
+        /* --- End Fixed Bottom Actions --- */
+
+
+        /* Popup for View Order */
+        .order-popup {
+            display: none; /* Hidden by default */
+            position: fixed; /* Keep it fixed to viewport for consistent positioning */
+            bottom: 6rem; /* Position above the fixed bottom bar */
+            right: 2rem;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 6px 6px rgba(0,0,0,0.1);
+            z-index: 60; /* Above fixed bottom bar */
+            width: 90%;
+            max-width: 400px; /* Max width for readability */
+            max-height: 70vh; /* Limit height for scrollability */
+            overflow-y: auto;
+            transform-origin: bottom right; /* For upward animation */
+            animation: fadeInScaleUp 0.3s ease-out forwards;
+            padding: 1.5rem;
+            flex-direction: column;
+        }
+
+        .order-popup.show {
+            display: flex; /* Show using flex for content alignment */
+        }
+
+        .order-popup .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .order-popup .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4b5563;
+            transition: color 0.2s;
+        }
+        .order-popup .close-btn:hover {
+            color: #1f2937;
+        }
+        .order-popup .cart-content-wrapper {
+            flex-grow: 1;
+            overflow-y: auto; /* Scrollable content inside popup */
+            max-height: calc(70vh - 100px); /* Adjust based on header/footer in popup */
+        }
+        .order-popup .footer {
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 1rem;
+        }
+
+        @keyframes fadeInScaleUp {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 pb-20"> <!-- Added padding-bottom to body to account for fixed bar -->
+
+    <!-- Header Section -->
+    <header class="bg-white p-4 md:p-6 rounded-lg shadow-md mb-6 flex justify-between items-center flex-wrap gap-4">
+        <!-- Logo/Header left -->
+        <div class="flex items-center space-x-4">
+            <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-content-center text-gray-600 font-bold text-sm">Logo</div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Ocean City Hemp Shop</h1>
+        </div>
+        <!-- Header right -->
+        <div class="flex items-center space-x-4">
+            <span class="text-lg md:text-xl font-semibold text-gray-600">Self-Service kiosk</span>
+            <div class="text-xl md:text-2xl font-semibold text-gray-700">Order No: <span class="text-gray-900">12345</span></div>
+        </div>
+    </header>
+
+    <!-- Horizontal Categories Navigation -->
+    <nav class="bg-white p-4 md:p-5 rounded-lg shadow-md mb-6 flex justify-around items-center flex-wrap gap-4">
+        <a href="#" class="text-lg md:text-xl font-medium text-gray-700 hover:text-green-600 transition-colors flex items-center space-x-2">
+            <i class="fa-solid fa-cannabis text-green-600"></i>
+            <span>Flower</span>
+        </a>
+        <a href="#" class="text-lg md:text-xl font-medium text-gray-700 hover:text-purple-600 transition-colors flex items-center space-x-2">
+            <i class="fa-solid fa-cookie text-purple-600"></i>
+            <span>Edibles</span>
+        </a>
+        <a href="#" class="text-lg md:text-xl font-medium text-gray-700 hover:text-blue-600 transition-colors flex items-center space-x-2">
+            <i class="fa-solid fa-glasses text-blue-600"></i>
+            <span>Accessories</span>
+        </a>
+        <a href="#" class="text-lg md:text-xl font-medium text-gray-700 hover:text-red-600 transition-colors flex items-center space-x-2">
+            <i class="fa-solid fa-joint text-red-600"></i>
+            <span>Pre-rolls</span>
+        </a>
+    </nav>
+
+    <!-- Main Content Area: Product Sections -->
+    <main class="flex-grow flex flex-col lg:flex-row gap-6">
+
+        <!-- Left Column: Product Sections (Now taking full width on larger screens) -->
+        <section class="flex-grow w-full bg-white p-4 md:p-6 rounded-lg shadow-md overflow-y-auto custom-scrollbar relative">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl md:text-3xl font-semibold text-gray-800">Products</h2>
+                <!-- Filter Toggle and Dropdown -->
+                <div class="relative inline-block text-left">
+                    <button id="filterToggle" class="action-button py-2 px-4 flex items-center space-x-2">
+                        <span>Filters</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div id="filterDropdown" class="dropdown-menu">
+                        <a href="#">Indica</a>
+                        <a href="#">Sativa</a>
+                        <a href="#">Hybrid</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flower Section -->
+            <h3 class="text-xl md:text-2xl font-semibold text-gray-700 mb-4 mt-6">Flower</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Flower+Image" alt="Blue Dream Strain">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Blue Dream</h4>
+                        <p class="product-price">$35.00</p>
+                        <p class="product-description-short">Blue Dream Flower</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 28.00%</span>
+                            <span class="pill-label thc-cbd-pill">CBD: 0.05%</span>
+                            <span class="pill-label strain-pill">Sativa</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Flower+Image" alt="OG Kush Flower">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">OG Kush</h4>
+                        <p class="product-price">$30.00</p>
+                        <p class="product-description-short">OG Kush Flower</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 25.00%</span>
+                            <span class="pill-label thc-cbd-pill">CBD: 0.10%</span>
+                            <span class="pill-label strain-pill">Indica</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Flower+Image" alt="Sour Diesel Flower">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Sour Diesel</h4>
+                        <p class="product-price">$40.00</p>
+                        <p class="product-description-short">Sour Diesel Flower</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 22.00%</span>
+                            <span class="pill-label thc-cbd-pill">CBD: 0.08%</span>
+                            <span class="pill-label strain-pill">Sativa</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Flower+Image" alt="Gelato Strain">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Gelato</h4>
+                        <p class="product-price">$38.00</p>
+                        <p class="product-description-short">Gelato Strain</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 27.00%</span>
+                            <span class="pill-label thc-cbd-pill">CBD: 0.03%</span>
+                            <span class="pill-label strain-pill">Hybrid</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Flower+Image" alt="Wedding Cake Strain">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Wedding Cake</h4>
+                        <p class="product-price">$32.00</p>
+                        <p class="product-description-short">Wedding Cake Strain</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 24.00%</span>
+                            <span class="pill-label thc-cbd-pill">CBD: 0.07%</span>
+                            <span class="pill-label strain-pill">Indica</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Flower+Image" alt="Pineapple Express">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Pineapple Express</h4>
+                        <p class="product-price">$37.00</p>
+                        <p class="product-description-short">Pineapple Express</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 26.00%</span>
+                            <span class="pill-label thc-cbd-pill">CBD: 0.04%</span>
+                            <span class="pill-label strain-pill">Hybrid</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+            </div>
+
+            <!-- Edibles Section -->
+            <h3 class="text-xl md:text-2xl font-semibold text-gray-700 mb-4">Edibles</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Edible+Image" alt="Gummy Bears (Sativa)">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Sativa Gummy Bears</h4>
+                        <p class="product-price">$20.00</p>
+                        <p class="product-description-short">Delicious fruit-flavored gummies.</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 10mg/piece</span>
+                            <span class="pill-label strain-pill">Sativa</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Edible+Image" alt="Chocolate Bar (Indica)">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Indica Chocolate Bar</h4>
+                        <p class="product-price">$25.00</p>
+                        <p class="product-description-short">Rich dark chocolate with relaxing effects.</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 20mg/bar</span>
+                            <span class="pill-label strain-pill">Indica</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Edible+Image" alt="Caramel Chews (Hybrid)">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Hybrid Caramel Chews</h4>
+                        <p class="product-price">$18.00</p>
+                        <p class="product-description-short">Sweet caramels for a balanced experience.</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 15mg/chew</span>
+                            <span class="pill-label strain-pill">Hybrid</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Edible+Image" alt="Fruit Chews (CBD)">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">CBD Fruit Chews</h4>
+                        <p class="product-price">$15.00</p>
+                        <p class="product-description-short">Non-psychoactive, great for relaxation.</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">CBD: 25mg/chew</span>
+                            <span class="pill-label strain-pill">CBD</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pre-rolls Section -->
+            <h3 class="text-xl md:text-2xl font-semibold text-gray-700 mb-4">Pre-rolls</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Pre-roll+Image" alt="Sativa Pre-roll">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Sativa Pre-roll</h4>
+                        <p class="product-price">$10.00</p>
+                        <p class="product-description-short">Uplifting and energetic blend.</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 20%</span>
+                            <span class="pill-label strain-pill">Sativa</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Pre-roll+Image" alt="Indica Pre-roll">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Indica Pre-roll</h4>
+                        <p class="product-price">$10.00</p>
+                        <p class="product-description-short">Relaxing and calming blend.</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 22%</span>
+                            <span class="pill-label strain-pill">Indica</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://placehold.co/300x200/e0e0e0/ffffff?text=Pre-roll+Image" alt="Hybrid Pre-roll">
+                        <div class="info-icon"><i class="fa-solid fa-info"></i></div>
+                    </div>
+                    <div class="product-details">
+                        <h4 class="product-name">Hybrid Pre-roll</h4>
+                        <p class="product-price">$10.00</p>
+                        <p class="product-description-short">Balanced effects for anytime use.</p>
+                        <div class="pill-label-container">
+                            <span class="pill-label thc-cbd-pill">THC: 21%</span>
+                            <span class="pill-label strain-pill">Hybrid</span>
+                        </div>
+                    </div>
+                    <button class="add-to-order-button">
+                        <i class="fa-solid fa-leaf"></i>
+                        Add to Order
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column (Empty now as per previous instruction) -->
+        <aside class="hidden lg:block w-0"></aside> 
+
+    </main>
+
+    <!-- Fixed Bottom Actions Bar -->
+    <div class="fixed-bottom-actions">
+        <button id="assistanceBtn" class="bottom-pill-btn assistance-btn-bottom">
+            <i class="fa-solid fa-phone"></i>
+            <span>Ask for Assistance</span>
+        </button>
+        <button id="viewOrderBtn" class="bottom-pill-btn view-order-btn-bottom">
+            <i class="fa-solid fa-shopping-cart"></i>
+            <span>Your items</span>
+        </button>
+    </div>
+
+
+    <!-- Floating Refresh Button on the left -->
+    <div class="floating-left-actions">
+        <button id="refreshBtn" class="floating-btn refresh-btn-left">
+            <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+    </div>
+
+
+    <!-- Order Popup / Cart Details Popup -->
+    <div id="orderPopup" class="order-popup">
+        <div class="header">
+            <h3 class="text-xl font-bold text-gray-800">Your Order Details</h3>
+            <button class="close-btn" id="closeOrderPopup">&times;</button>
+        </div>
+        <div class="cart-content-wrapper" id="orderPopupCartItems">
+            <!-- Cart items will be dynamically loaded here from the 'cart' array -->
+            <p class="text-gray-500 text-center py-8">No items in your order.</p>
+        </div>
+        <div class="footer">
+            <div class="flex justify-between text-md text-gray-700">
+                <span>Subtotal:</span>
+                <span class="font-semibold" id="popupSubtotal">$0.00</span>
+            </div>
+            <div class="flex justify-between text-md text-gray-700">
+                <span>Tax:</span>
+                <span class="font-semibold" id="popupTax">$0.00</span>
+            </div>
+            <div class="flex justify-between text-xl font-bold text-gray-900 pt-2 border-t border-gray-200 mt-2">
+                <span>Total:</span>
+                <span id="popupTotal">$0.00</span>
+            </div>
+            <button class="action-button w-full text-center py-3 text-lg md:text-xl mt-4">Place Order</button>
+        </div>
+    </div>
+
+
+    <script type="module">
+        // Firebase Initialization (MANDATORY, but commented out if not used for persistence as per user's preference)
+        /*
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        
+        let app;
+        let db;
+        let auth;
+        let userId;
+
+        if (Object.keys(firebaseConfig).length > 0) {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            (async () => {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined') {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    userId = auth.currentUser?.uid || crypto.randomUUID();
+                    console.log("Firebase initialized and user signed in:", userId);
+                } catch (error) {
+                    console.error("Firebase authentication error:", error);
+                    userId = crypto.randomUUID();
+                }
+            })();
+        } else {
+            console.warn("Firebase config not found. Running without Firebase services.");
+            userId = crypto.randomUUID();
+        }
+        */
+
+        // DOM elements for cart functionality
+        const addToCartButtons = document.querySelectorAll('.add-to-order-button'); /* Updated selector */
+
+        let cart = []; // Simple in-memory cart for demonstration
+
+        // Function to update cart display and totals (only for popup now)
+        function updateCartDisplay() {
+            let currentSubtotal = 0;
+            const taxRate = 0.08; // Example 8% tax
+
+            const orderPopupCartItems = document.getElementById('orderPopupCartItems');
+            orderPopupCartItems.innerHTML = ''; // Clear popup cart items
+
+            if (cart.length === 0) {
+                orderPopupCartItems.innerHTML = '<p class="text-gray-500 text-center py-8">No items in your order.</p>';
+            } else {
+                cart.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0';
+                    itemElement.innerHTML = `
+                        <span class="text-gray-700">${item.name} x ${item.quantity}</span>
+                        <span class="font-medium text-gray-900">$${(item.price * item.quantity).toFixed(2)}</span>
+                    `;
+                    orderPopupCartItems.appendChild(itemElement); // Add to popup
+                    currentSubtotal += item.price * item.quantity;
+                });
+            }
+
+            const currentTax = currentSubtotal * taxRate;
+            const currentTotal = currentSubtotal + currentTax;
+
+            // Update popup totals
+            document.getElementById('popupSubtotal').textContent = `$${currentSubtotal.toFixed(2)}`;
+            document.getElementById('popupTax').textContent = `$${currentTax.toFixed(2)}`;
+            document.getElementById('popupTotal').textContent = `$${currentTotal.toFixed(2)}`;
+        }
+
+        // Add to Cart functionality
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const productCard = event.target.closest('.product-card');
+                if (!productCard) {
+                    console.error("Product card not found for this button.");
+                    return;
+                }
+                // Updated to get elements from the new card structure
+                const productNameElement = productCard.querySelector('.product-name');
+                const productPriceElement = productCard.querySelector('.product-price');
+
+                if (!productNameElement || !productPriceElement) {
+                    console.error("Product name or price element not found in new card structure.");
+                    return;
+                }
+
+                const productName = productNameElement.textContent;
+                const productPrice = parseFloat(productPriceElement.textContent.replace('$', ''));
+
+                const existingItem = cart.find(item => item.name === productName);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ name: productName, price: productPrice, quantity: 1 });
+                }
+                updateCartDisplay();
+            });
+        });
+
+        // Filter Dropdown Toggle functionality
+        const filterToggle = document.getElementById('filterToggle');
+        const filterDropdown = document.getElementById('filterDropdown');
+
+        filterToggle.addEventListener('click', () => {
+            filterDropdown.classList.toggle('show');
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        window.addEventListener('click', (event) => {
+            if (!event.target.matches('#filterToggle') && !event.target.closest('#filterDropdown')) {
+                if (filterDropdown.classList.contains('show')) {
+                    filterDropdown.classList.remove('show');
+                }
+            }
+        });
+
+        // Get the newly positioned buttons
+        const assistanceBtn = document.getElementById('assistanceBtn');
+        const viewOrderBtn = document.getElementById('viewOrderBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        // Functionality for "Ask for Assistance" button
+        assistanceBtn.addEventListener('click', () => {
+            alert('Assistance requested!'); // Placeholder for actual assistance logic
+        });
+        
+        // Functionality for "Refresh Session" button (page reload)
+        refreshBtn.addEventListener('click', () => {
+            location.reload();
+        });
+
+        // Order Popup functionality
+        const orderPopup = document.getElementById('orderPopup');
+        const closeOrderPopupBtn = document.getElementById('closeOrderPopup');
+
+        viewOrderBtn.addEventListener('click', () => {
+            updateCartDisplay(); // Ensure cart data is fresh before opening
+            orderPopup.classList.add('show');
+        });
+
+        closeOrderPopupBtn.addEventListener('click', () => {
+            orderPopup.classList.remove('show');
+        });
+
+        // Close the order popup if the user clicks outside of it
+        window.addEventListener('click', (event) => {
+            if (!event.target.closest('.order-popup') && !event.target.closest('#viewOrderBtn') && !event.target.closest('#assistanceBtn') && !event.target.closest('#refreshBtn')) {
+                if (orderPopup.classList.contains('show')) {
+                    orderPopup.classList.remove('show');
+                }
+            }
+        });
+
+        // Initial cart display
+        updateCartDisplay();
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Ocean green gradient background -->
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#14b8a6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d9488;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <circle cx="24" cy="24" r="24" fill="url(#bg)"/>
+  
+  <!-- Cannabis leaf -->
+  <g transform="translate(24, 24) scale(1.2)">
+    <!-- Main leaf body -->
+    <path d="M0,-15 
+             C-3,-12 -6,-8 -8,-3 
+             C-10,-1 -10,1 -8,4 
+             C-6,8 -3,12 0,15
+             C3,12 6,8 8,4 
+             C10,1 10,-1 8,-3 
+             C6,-8 3,-12 0,-15 Z" 
+          fill="#ffffff" opacity="0.95"/>
+    
+    <!-- Left leaflets -->
+    <ellipse cx="-6" cy="-5" rx="2" ry="6" fill="#ffffff" opacity="0.9" transform="rotate(-25 -6 -5)"/>
+    <ellipse cx="-8" cy="2" rx="1.5" ry="5" fill="#ffffff" opacity="0.85" transform="rotate(-35 -8 2)"/>
+    
+    <!-- Right leaflets -->
+    <ellipse cx="6" cy="-5" rx="2" ry="6" fill="#ffffff" opacity="0.9" transform="rotate(25 6 -5)"/>
+    <ellipse cx="8" cy="2" rx="1.5" ry="5" fill="#ffffff" opacity="0.85" transform="rotate(35 8 2)"/>
+    
+    <!-- Center vein -->
+    <path d="M0,-15 L0,15" stroke="#0d9488" stroke-width="1.2" opacity="0.7"/>
+    
+    <!-- Side veins -->
+    <path d="M0,-10 L-4,-6" stroke="#0d9488" stroke-width="0.8" opacity="0.6"/>
+    <path d="M0,-6 L-6,-1" stroke="#0d9488" stroke-width="0.8" opacity="0.6"/>
+    <path d="M0,-2 L-5,3" stroke="#0d9488" stroke-width="0.8" opacity="0.6"/>
+    <path d="M0,4 L-3,8" stroke="#0d9488" stroke-width="0.8" opacity="0.6"/>
+    
+    <path d="M0,-10 L4,-6" stroke="#0d9488" stroke-width="0.8" opacity="0.6"/>
+    <path d="M0,-6 L6,-1" stroke="#0d9488" stroke-width="0.8" opacity="0.6"/>
+    <path d="M0,-2 L5,3" stroke="#0d9488" stroke-width="0.8" opacity="0.6"/>
+    <path d="M0,4 L3,8" stroke="#0d9488" stroke-width="0.8" opacity="0.6"/>
+    
+    <!-- Serrated edges -->
+    <path d="M-8,-3 L-9,-2 L-8.5,-1 L-9,0 L-8.5,1 L-9,2 L-8,4" 
+          stroke="#ffffff" stroke-width="0.5" fill="none" opacity="0.8"/>
+    <path d="M8,-3 L9,-2 L8.5,-1 L9,0 L8.5,1 L9,2 L8,4" 
+          stroke="#ffffff" stroke-width="0.5" fill="none" opacity="0.8"/>
+  </g>
+</svg>

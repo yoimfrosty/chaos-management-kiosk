@@ -1,0 +1,20 @@
+[Unit]
+Description=Ocean City Hemp Kiosk Django Application
+After=network.target
+
+[Service]
+Type=exec
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/chaos-magement
+Environment="DJANGO_SETTINGS_MODULE=OceanCityKiosk.settings_production"
+Environment="PYTHONPATH=/home/ubuntu/chaos-magement"
+ExecStart=/usr/bin/python3 -m gunicorn --bind 127.0.0.1:8000 --workers 3 OceanCityKiosk.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

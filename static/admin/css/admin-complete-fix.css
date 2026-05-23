@@ -1,0 +1,449 @@
+/* Ocean City Hemp Kiosk - Admin CSS Override */
+
+/* Hide kiosk elements that shouldn't appear in admin */
+.modern-header, 
+.category-nav, 
+.fixed-action-bar, 
+.toast-container,
+.kiosk-content,
+.product-grid,
+.filters-dropdown {
+    display: none !important;
+}
+
+/* Ensure proper admin styling */
+.djn-checkbox {
+    display: inline-block !important;
+}
+
+.djn-hidden {
+    display: none !important;
+}
+*::before,
+*::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    position: static !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Reset all positioning */
+* {
+    position: static !important;
+    z-index: auto !important;
+    box-sizing: border-box !important;
+    float: none !important;
+}
+
+/* Admin header */
+#header {
+    position: relative !important;
+    z-index: 1000 !important;
+    background: #417690 !important;
+    color: #ffc !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    clear: both !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#branding h1,
+#branding h1 a {
+    padding: 8px 10px !important;
+    margin: 0 !important;
+    font-weight: normal !important;
+    font-size: 18px !important;
+    color: #f4f2f0 !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    border: none !important;
+    line-height: 1.2 !important;
+}
+
+#user-tools {
+    float: right !important;
+    padding: 1.2rem !important;
+    font-size: 11px !important;
+    text-align: right !important;
+    margin: 0 !important;
+    color: #ffc !important;
+    background: transparent !important;
+}
+
+/* Container and content */
+#container {
+    position: relative !important;
+    z-index: 999 !important;
+    width: 100% !important;
+    background: #fff !important;
+    clear: both !important;
+    min-height: calc(100vh - 40px) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#content {
+    position: relative !important;
+    z-index: 998 !important;
+    background: #fff !important;
+    padding: 20px 40px !important;
+    clear: both !important;
+    width: 100% !important;
+    min-height: calc(100vh - 120px) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#content-main {
+    position: relative !important;
+    z-index: 997 !important;
+    width: 100% !important;
+    float: none !important;
+    clear: both !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    background: #79aec8 !important;
+    padding: 10px 40px !important;
+    border: none !important;
+    font-size: 11px !important;
+    color: #c4dce8 !important;
+    text-align: left !important;
+    clear: both !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
+    margin: 10px 0 !important;
+    border: 1px solid #ddd !important;
+    font-size: 12px !important;
+    clear: both !important;
+    display: table !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+th, td {
+    text-align: left !important;
+    vertical-align: top !important;
+    padding: 8px 10px !important;
+    background: #fff !important;
+    color: #333 !important;
+    border-bottom: 1px solid #ddd !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+    display: table-cell !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+th {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    font-weight: 600 !important;
+    color: #495057 !important;
+}
+
+tr {
+    display: table-row !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+tr:hover {
+    background: #f8f9fa !important;
+}
+
+/* Buttons */
+.button, 
+input[type=submit], 
+input[type=button], 
+.submit-row input,
+a.button {
+    background: #417690 !important;
+    padding: 10px 15px !important;
+    border: 1px solid #205067 !important;
+    border-radius: 4px !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    font-size: 12px !important;
+    line-height: normal !important;
+    margin: 0 5px 0 0 !important;
+    display: inline-block !important;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+    font-weight: normal !important;
+    box-shadow: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.button:hover, 
+input[type=submit]:hover, 
+input[type=button]:hover,
+.submit-row input:hover,
+a.button:hover {
+    background: #205067 !important;
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+/* Forms */
+input, select, textarea {
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+    font-size: 12px !important;
+    padding: 5px 6px !important;
+    margin: 2px 0 !important;
+    border: 1px solid #ccc !important;
+    background: #fff !important;
+    color: #333 !important;
+    border-radius: 3px !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #79aec8 !important;
+    box-shadow: 0 0 3px rgba(121, 174, 200, 0.3) !important;
+}
+
+.form-row {
+    overflow: hidden !important;
+    padding: 10px !important;
+    font-size: 12px !important;
+    border-bottom: 1px solid #eee !important;
+    clear: both !important;
+    background: #fff !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.form-row label {
+    font-weight: normal !important;
+    color: #666 !important;
+    font-size: 12px !important;
+    float: left !important;
+    width: 150px !important;
+    padding-right: 10px !important;
+    line-height: 1.6 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Changelist */
+#changelist {
+    position: relative !important;
+    width: 100% !important;
+    background: #fff !important;
+    clear: both !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#changelist .actions {
+    padding: 8px !important;
+    border-bottom: 1px solid #ddd !important;
+    background: #f8f9fa !important;
+    clear: both !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#changelist-search {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #ddd !important;
+    padding: 8px !important;
+    clear: both !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#result_list {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: #fff !important;
+    display: table !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: #333 !important;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+    font-weight: bold !important;
+    margin: 0.5em 0 !important;
+    background: transparent !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+h1 {
+    font-size: 18px !important;
+    margin: 0 0 20px !important;
+    font-weight: 300 !important;
+}
+
+h2 {
+    font-size: 16px !important;
+    margin: 1em 0 0.5em 0 !important;
+}
+
+/* Links */
+a:link, a:visited {
+    color: #417893 !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    display: inline !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+a:focus, a:hover {
+    color: #036 !important;
+    text-decoration: underline !important;
+}
+
+/* Error lists */
+.errorlist {
+    margin: 0 0 4px !important;
+    padding: 0 !important;
+    color: #ba2121 !important;
+    background: #fff !important;
+    list-style: none !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.errorlist li {
+    font-size: 12px !important;
+    display: block !important;
+    padding: 4px 5px !important;
+    border: 1px solid #ba2121 !important;
+    color: #ba2121 !important;
+    background: #ffefef !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Messages */
+.messagelist {
+    list-style: none !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.messagelist li {
+    display: block !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    padding: 10px 10px 10px 65px !important;
+    margin: 0 0 3px 0 !important;
+    border-radius: 4px !important;
+    color: #333 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.messagelist li.success {
+    background: #dfd !important;
+}
+
+.messagelist li.warning {
+    background: #ffc !important;
+}
+
+.messagelist li.error {
+    background: #ffefef !important;
+}
+
+/* Pagination */
+.paginator {
+    font-size: 11px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    line-height: 22px !important;
+    border-top: 1px solid #ddd !important;
+    clear: both !important;
+    background: #fff !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Force visibility on all admin elements */
+.module,
+.module h2,
+.module caption,
+.inline-group,
+.grp-group,
+.submit-row,
+#changelist-filter,
+.actions,
+.results,
+#toolbar,
+.object-tools,
+#content-related {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: #fff !important;
+    color: #333 !important;
+}
+
+/* Clearfix */
+.clearfix::after,
+#header::after,
+#content::after,
+#container::after,
+.form-row::after {
+    content: "" !important;
+    display: table !important;
+    clear: both !important;
+    visibility: visible !important;
+}
+
+/* Final override for stubborn elements */
+[style*="position: fixed"],
+[style*="position: absolute"],
+[style*="z-index"],
+[style*="display: none"] {
+    position: static !important;
+    z-index: auto !important;
+}
+
+/* Ensure admin elements are not hidden */
+body.admin-interface * {
+    position: static !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}

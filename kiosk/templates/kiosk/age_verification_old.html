@@ -1,0 +1,572 @@
+{% extends 'kiosk/base.html' %}
+
+{% block title %}Age Verification - Ocean City Hemp Kiosk{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Age Verification Page Styles */
+    body.age-verification-page {
+        font-family: 'Inter', sans-serif !important;
+        background: linear-gradient(135deg, #f0f9f0 0%, #e6f2ff 100%) !important;
+        background-image: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    body.age-verification-page::before {
+        display: none !important;
+    }
+
+    .verification-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+    }
+
+    .verification-card {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        padding: 3rem;
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .verification-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6);
+    }
+
+    .verification-icon {
+        width: 5rem;
+        height: 5rem;
+        background: linear-gradient(135deg, #ef4444 0%, #ec4899 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+        }
+    }
+
+    .verification-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+    }
+
+    .verification-subtitle {
+        font-size: 1.1rem;
+        color: #6b7280;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .verification-form {
+        text-align: left;
+        margin-top: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 0.75rem;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        background: #f9fafb;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #10b981;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+
+    .form-input.error {
+        border-color: #ef4444;
+        background: #fef2f2;
+    }
+
+    .age-status {
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        text-align: center;
+        display: none;
+    }
+
+    .age-status.valid {
+        background: #d1fae5;
+        color: #065f46;
+        border: 2px solid #10b981;
+        display: block;
+    }
+
+    .age-status.invalid {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 2px solid #ef4444;
+        display: block;
+    }
+
+    .submit-button {
+        width: 100%;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        padding: 1.25rem;
+        border-radius: 0.75rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1.5rem;
+        opacity: 0.5;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .submit-button.enabled {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .submit-button.enabled:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .back-button {
+        width: 100%;
+        background: white;
+        color: #374151;
+        border: 2px solid #e5e7eb;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 1rem;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .back-button:hover {
+        background: #f9fafb;
+        border-color: #d1d5db;
+        text-decoration: none;
+    }
+
+    .privacy-notice {
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        font-size: 0.875rem;
+        color: #1e40af;
+        text-align: center;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .verification-card {
+            padding: 2rem 1.5rem;
+            margin: 1rem;
+        }
+        
+        .verification-title {
+            font-size: 2rem;
+        }
+        
+        .verification-subtitle {
+            font-size: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<script>document.body.classList.add('age-verification-page');</script>
+
+<div class="verification-container">
+    <div class="verification-card">
+        <!-- Icon -->
+        <div class="verification-icon">
+            <i class="fa-solid fa-id-card text-white text-2xl"></i>
+        </div>
+
+        <!-- Title -->
+        <h1 class="verification-title">Age Verification</h1>
+        <p class="verification-subtitle">
+            Please provide your information to verify you are <strong>21 years or older</strong> to access our premium cannabis products.
+        </p>
+
+        <!-- Form -->
+        <form method="post" class="verification-form" id="ageVerificationForm">
+            {% csrf_token %}
+
+            <!-- Customer Name -->
+            <div class="form-group">
+                <label for="{{ form.customer_name.id_for_label }}" class="form-label">
+                    {{ form.customer_name.label }}
+                </label>
+                {{ form.customer_name }}
+                {% if form.customer_name.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {% for error in form.customer_name.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Customer Contact -->
+            <div class="form-group">
+                <label for="{{ form.customer_contact.id_for_label }}" class="form-label">
+                    {{ form.customer_contact.label }}
+                </label>
+                {{ form.customer_contact }}
+                {% if form.customer_contact.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {% for error in form.customer_contact.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="form-group">
+                <label for="{{ form.birthdate.id_for_label }}" class="form-label">
+                    {{ form.birthdate.label }}
+                </label>
+                {{ form.birthdate }}
+                {% if form.birthdate.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {% for error in form.birthdate.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Age Status Display -->
+            <div id="ageStatus" class="age-status"></div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-button" id="submitButton">
+                <i class="fa-solid fa-shield-check"></i>
+                Verify Age & Browse Products
+            </button>
+
+            <!-- Back Button -->
+            <a href="{% url 'kiosk:welcome' %}" class="back-button">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                Back to Welcome
+            </a>
+        </form>
+
+        <!-- Privacy Notice -->
+        <div class="privacy-notice">
+            <i class="fa-solid fa-lock mr-2"></i>
+            Your information is collected for age verification purposes only and is not stored permanently.
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('ageVerificationForm');
+    const birthdateInput = document.getElementById('{{ form.birthdate.id_for_label }}');
+    const nameInput = document.getElementById('{{ form.customer_name.id_for_label }}');
+    const submitButton = document.getElementById('submitButton');
+    const ageStatus = document.getElementById('ageStatus');
+
+    function validateAge() {
+        const birthdate = birthdateInput.value;
+        const name = nameInput.value.trim();
+        
+        if (!birthdate || !name) {
+            ageStatus.style.display = 'none';
+            submitButton.classList.remove('enabled');
+            return;
+        }
+
+        // Calculate age
+        const birthDate = new Date(birthdate);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        // Check if 21 or older
+        if (age >= 21) {
+            ageStatus.className = 'age-status valid';
+            ageStatus.innerHTML = '<i class="fa-solid fa-check-circle mr-2"></i>Age verified: You are ' + age + ' years old and eligible to browse our products.';
+            submitButton.classList.add('enabled');
+        } else {
+            ageStatus.className = 'age-status invalid';
+            ageStatus.innerHTML = '<i class="fa-solid fa-exclamation-triangle mr-2"></i>You must be at least 21 years old. You are currently ' + age + ' years old.';
+            submitButton.classList.remove('enabled');
+        }
+    }
+
+    // Validate on input
+    birthdateInput.addEventListener('change', validateAge);
+    nameInput.addEventListener('input', validateAge);
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        if (!submitButton.classList.contains('enabled')) {
+            e.preventDefault();
+            return false;
+        }
+
+        // Show loading state
+        submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Verifying...';
+        submitButton.disabled = true;
+    });
+
+    // Initial validation check
+    validateAge();
+});
+</script>
+{% endblock %}
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 mr-3 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" />
+                    </svg>
+                    <div>{{ form.non_field_errors }}</div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Enhanced Checkbox -->
+            <div
+                class="p-6 bg-gradient-to-r from-teal-50 to-blue-50 rounded-xl border-2 border-ocean-green/20 hover:border-ocean-green/40 transition-all duration-300">
+                <div class="flex items-center justify-center space-x-4">
+                    <div class="relative">
+                        {{ form.is_21_plus }}
+                        <label for="{{ form.is_21_plus.id_for_label }}" class="absolute inset-0 cursor-pointer"></label>
+                    </div>
+                    <label for="{{ form.is_21_plus.id_for_label }}"
+                        class="text-lg font-semibold text-gray-800 cursor-pointer select-none">
+                        {{ form.is_21_plus.label }}
+                    </label>
+                </div>
+            </div>
+
+            <!-- Field Errors -->
+            {% if form.is_21_plus.errors %}
+            <div class="alert alert-error">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 mr-3 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                    </svg>
+                    <div>{{ form.is_21_plus.errors }}</div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Enhanced Buttons -->
+            <div class="flex flex-col space-y-4">
+                <button type="submit" class="button-primary w-full text-lg py-4">
+                    <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg> Confirm Age & Browse Products
+                </button>
+                <a href="{% url 'kiosk:welcome' %}" class="button-outline w-full text-center py-3">
+                    ← Back to Welcome
+                </a>
+            </div>
+        </form>
+
+        <!-- Enhanced Legal Information -->
+        <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl">
+            <div>
+                <h3 class="font-semibold text-blue-900 mb-2">Legal Notice</h3>
+                <p class="text-sm text-blue-800 leading-relaxed">
+                    Cannabis products are for adults 21 and older. Keep out of reach of children and pets.
+                    Do not operate vehicles or machinery. Women should not use cannabis during pregnancy or while
+                    breastfeeding.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Enhanced form validation with improved UX
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const checkbox = document.getElementById('{{ form.is_21_plus.id_for_label }}');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        // Update submit button state based on checkbox
+        function updateSubmitButton() {
+            if (checkbox.checked) {
+                submitButton.classList.add('pulse-animation');
+                submitButton.style.background = 'linear-gradient(135deg, var(--ocean-green) 0%, var(--ocean-green-dark) 100%)';
+            } else {
+                submitButton.classList.remove('pulse-animation');
+                submitButton.style.background = 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)';
+            }
+        }
+
+        checkbox.addEventListener('change', updateSubmitButton);
+        updateSubmitButton(); // Initial state
+
+        // Enhanced form submission with loading state and notifications
+        form.addEventListener('submit', function (e) {
+            if (!checkbox.checked) {
+                e.preventDefault();
+
+                // Enhanced error animation
+                const checkboxContainer = checkbox.closest('.p-6');
+                checkboxContainer.classList.add('animate-pulse');
+                checkboxContainer.style.borderColor = '#ef4444';
+                checkboxContainer.style.background = 'linear-gradient(135deg, #fef2f2, #fee2e2)';
+
+                // Show error notification instead of alert
+                if (window.showNotification) {
+                    window.showNotification('⚠️ Age verification required. Please confirm you are 21 years or older to continue.', 'error', 6000);
+                } else {
+                    alert('✋ Please confirm that you are 21 years of age or older to proceed.');
+                }
+
+                // Focus and highlight the checkbox
+                setTimeout(() => {
+                    checkboxContainer.classList.remove('animate-pulse');
+                    checkboxContainer.style.borderColor = '#ef4444';
+                    checkboxContainer.style.background = '';
+                    checkbox.focus();
+
+                    // Add shake animation
+                    checkboxContainer.style.animation = 'shake 0.5s ease-in-out';
+                    setTimeout(() => {
+                        checkboxContainer.style.animation = '';
+                        checkboxContainer.style.borderColor = '';
+                    }, 500);
+                }, 1000);
+
+                return false;
+            }
+
+            // Show loading state with enhanced feedback
+            submitButton.innerHTML = '<svg class="w-5 h-5 inline mr-2 animate-spin" fill="currentColor" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg> Verifying Age...';
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-75');
+
+            // Show processing notification
+            if (window.showNotification) {
+                window.showNotification('🔐 Verifying age requirements...', 'info', 3000);
+            }
+        });
+
+        // Enhanced hover effects with better transitions
+        const card = document.querySelector('.card-elevated');
+        card.addEventListener('mouseenter', function () {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+            this.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+        });
+
+        card.addEventListener('mouseleave', function () {
+            this.style.transform = '';
+            this.style.boxShadow = '';
+        });
+
+        // Add enhanced checkbox animations
+        checkbox.addEventListener('change', function () {
+            const container = this.closest('.p-6');
+            if (this.checked) {
+                container.style.background = 'linear-gradient(135deg, #f0fdf4, #dcfce7)';
+                container.style.borderColor = '#22c55e';
+                if (window.showNotification) {
+                    window.showNotification('✔ Age verified! You may now proceed to browse products.', 'success', 3000);
+                }
+            } else {
+                container.style.background = '';
+                container.style.borderColor = '';
+            }
+        });
+    });
+
+    // Add CSS animations for enhanced UX
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .enhanced-checkbox {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .enhanced-checkbox:checked {
+            transform: scale(1.1);
+        }
+        
+        .card-elevated {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    `;
+    document.head.appendChild(style);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Verification - Ocean City Hemp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .age-verification-container {
+            width: 100%;
+            max-width: 700px;
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand-logo {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+            flex-shrink: 0;
+        }
+
+        .cannabis-icon {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .brand-text {
+            text-align: left;
+        }
+
+        .brand-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+            line-height: 1.1;
+        }
+
+        .brand-subtitle {
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .verification-notice {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .verification-notice-title {
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+        }
+
+        .verification-notice-text {
+            color: #a16207;
+            font-size: 0.95rem;
+        }
+
+        .verification-form {
+            margin-top: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group.full-width {
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: #f9fafb;
+            color: #374151;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #10b981;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-input:hover {
+            border-color: #d1d5db;
+        }
+
+        .age-status {
+            margin: 1rem 0;
+            padding: 0.875rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            font-size: 0.95rem;
+        }
+
+        .age-status.valid {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+            display: block;
+            animation: slide-in 0.3s ease-out;
+        }
+
+        .age-status.invalid {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .verify-button {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .verify-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .verify-button:active {
+            transform: translateY(0);
+        }
+
+        .verify-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+
+        .error-messages {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .error-messages.show {
+            display: block;
+            animation: slide-in 0.3s ease-out;
+        }
+
+        .error-message {
+            color: #991b1b;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .error-message:last-child {
+            margin-bottom: 0;
+        }
+
+        /* iPad specific optimizations */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .age-verification-container {
+                max-width: 600px;
+                padding: 2.5rem 2rem;
+            }
+
+            .brand-header {
+                margin-bottom: 1.75rem;
+            }
+
+            .brand-title {
+                font-size: 2.5rem;
+            }
+
+            .form-row {
+                gap: 1.5rem;
+            }
+
+            .verification-notice {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 767px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .age-verification-container {
+                padding: 1.5rem;
+                border-radius: 1rem;
+                max-width: 100%;
+            }
+
+            .brand-header {
+                flex-direction: column;
+                gap: 0.75rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .brand-text {
+                text-align: center;
+            }
+
+            .brand-title {
+                font-size: 1.875rem;
+            }
+
+            .brand-logo {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .cannabis-icon {
+                font-size: 1.25rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+
+            .verification-notice {
+                padding: 1rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .form-input {
+                padding: 0.75rem;
+            }
+
+            .verify-button {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1025px) {
+            .age-verification-container {
+                max-width: 750px;
+                padding: 3rem 2.5rem;
+            }
+
+            .brand-title {
+                font-size: 2.75rem;
+            }
+
+            .verification-notice {
+                padding: 2rem;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (orientation: landscape) and (max-height: 600px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .age-verification-container {
+                padding: 1.5rem;
+            }
+
+            .brand-header {
+                margin-bottom: 1rem;
+            }
+
+            .verification-notice {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .form-row {
+                margin-bottom: 1rem;
+            }
+
+            .form-group.full-width {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="age-verification-container">
+        <div class="brand-header">
+            <div class="brand-logo">
+                <div class="cannabis-icon">🌿</div>
+            </div>
+            <div class="brand-text">
+                <h1 class="brand-title">Ocean City Hemp</h1>
+                <p class="brand-subtitle">Premium Cannabis Products</p>
+            </div>
+        </div>
+
+        <div class="verification-notice">
+            <div class="verification-notice-title">Age Verification Required</div>
+            <div class="verification-notice-text">
+                You must be 21 or older to access our cannabis products
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        {% if messages %}
+        <div class="error-messages show">
+            {% for message in messages %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" class="verification-form" id="verificationForm">
+            {% csrf_token %}
+            
+            <!-- Name and Phone Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.customer_name.id_for_label }}" class="form-label">{{ form.customer_name.label }}</label>
+                    {{ form.customer_name }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.customer_contact.id_for_label }}" class="form-label">{{ form.customer_contact.label }}</label>
+                    {{ form.customer_contact }}
+                </div>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="form-group full-width">
+                <label for="{{ form.birthdate.id_for_label }}" class="form-label">{{ form.birthdate.label }}</label>
+                {{ form.birthdate }}
+            </div>
+
+            <!-- Age Status Display -->
+            <div id="ageStatus" class="age-status"></div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="verify-button" id="verifyButton" disabled>
+                Complete Information to Continue
+            </button>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('verificationForm');
+        const birthdateInput = document.getElementById('{{ form.birthdate.id_for_label }}');
+        const ageStatus = document.getElementById('ageStatus');
+        const verifyButton = document.getElementById('verifyButton');
+        const nameInput = document.getElementById('{{ form.customer_name.id_for_label }}');
+
+        function calculateAge(birthdate) {
+            const today = new Date();
+            const birth = new Date(birthdate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        function updateAgeStatus() {
+            const birthdate = birthdateInput.value;
+            const name = nameInput.value.trim();
+            
+            if (birthdate && name) {
+                const age = calculateAge(birthdate);
+                
+                if (age >= 21) {
+                    ageStatus.className = 'age-status valid';
+                    ageStatus.textContent = `✓ Age verified: ${age} years old. Welcome, ${name}!`;
+                    verifyButton.disabled = false;
+                    verifyButton.textContent = 'Enter Cannabis Store';
+                } else {
+                    ageStatus.className = 'age-status invalid';
+                    ageStatus.textContent = `✗ You must be 21 or older. You are ${age} years old.`;
+                    verifyButton.disabled = true;
+                    verifyButton.textContent = 'Age Verification Failed';
+                }
+            } else {
+                ageStatus.style.display = 'none';
+                verifyButton.disabled = true;
+                verifyButton.textContent = 'Complete Information to Continue';
+            }
+        }
+
+        // Real-time validation
+        birthdateInput.addEventListener('change', updateAgeStatus);
+        nameInput.addEventListener('input', updateAgeStatus);
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            const birthdate = birthdateInput.value;
+            const name = nameInput.value.trim();
+            
+            if (!birthdate || !name) {
+                e.preventDefault();
+                alert('Please complete all required fields.');
+                return;
+            }
+
+            const age = calculateAge(birthdate);
+            if (age < 21) {
+                e.preventDefault();
+                alert('You must be 21 or older to access our cannabis products.');
+                return;
+            }
+
+            // Show loading state
+            verifyButton.textContent = 'Verifying...';
+            verifyButton.disabled = true;
+        });
+
+        // Initial check
+        updateAgeStatus();
+    });
+    </script>
+</body>
+</html>
+            flex: 1;
+        }
+
+        .form-group.full-width {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: #f9fafb;
+            color: #374151;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #10b981;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-input:hover {
+            border-color: #d1d5db;
+        }
+
+        .age-status {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            font-size: 1rem;
+        }
+
+        .age-status.valid {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+            display: block;
+            animation: slide-in 0.3s ease-out;
+        }
+
+        .age-status.invalid {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .verify-button {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 1.25rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .verify-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .verify-button:active {
+            transform: translateY(0);
+        }
+
+        .verify-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+
+        .error-messages {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .error-messages.show {
+            display: block;
+            animation: slide-in 0.3s ease-out;
+        }
+
+        .error-message {
+            color: #991b1b;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .error-message:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .age-verification-container {
+                padding: 2rem 1.5rem;
+                border-radius: 1rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .brand-title {
+                font-size: 2rem;
+            }
+
+            .brand-logo {
+                width: 3.5rem;
+                height: 3.5rem;
+            }
+
+            .cannabis-icon {
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .age-verification-container {
+                padding: 1.5rem 1rem;
+                margin: 0.5rem;
+            }
+
+            .brand-title {
+                font-size: 1.75rem;
+            }
+
+            .verification-notice {
+                padding: 1rem;
+            }
+
+            .form-input {
+                padding: 0.875rem;
+            }
+
+            .verify-button {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Full viewport coverage */
+        @media (min-width: 1200px) {
+            .age-verification-container {
+                max-width: 700px;
+                padding: 4rem 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="age-verification-container">
+        <div class="brand-header">
+            <div class="brand-logo">
+                <div class="cannabis-icon">🌿</div>
+            </div>
+            <h1 class="brand-title">Ocean City Hemp</h1>
+            <p class="brand-subtitle">Premium Cannabis Products</p>
+        </div>
+
+        <div class="verification-notice">
+            <div class="verification-notice-title">Age Verification Required</div>
+            <div class="verification-notice-text">
+                You must be 21 or older to access our cannabis products
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        {% if messages %}
+        <div class="error-messages show">
+            {% for message in messages %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" class="verification-form" id="verificationForm">
+            {% csrf_token %}
+            
+            <!-- Name and Phone Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.customer_name.id_for_label }}" class="form-label">{{ form.customer_name.label }}</label>
+                    {{ form.customer_name }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.customer_contact.id_for_label }}" class="form-label">{{ form.customer_contact.label }}</label>
+                    {{ form.customer_contact }}
+                </div>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="form-group full-width">
+                <label for="{{ form.birthdate.id_for_label }}" class="form-label">{{ form.birthdate.label }}</label>
+                {{ form.birthdate }}
+            </div>
+
+            <!-- Age Status Display -->
+            <div id="ageStatus" class="age-status"></div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="verify-button" id="verifyButton" disabled>
+                Complete Information to Continue
+            </button>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('verificationForm');
+        const birthdateInput = document.getElementById('{{ form.birthdate.id_for_label }}');
+        const ageStatus = document.getElementById('ageStatus');
+        const verifyButton = document.getElementById('verifyButton');
+        const nameInput = document.getElementById('{{ form.customer_name.id_for_label }}');
+
+        function calculateAge(birthdate) {
+            const today = new Date();
+            const birth = new Date(birthdate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        function updateAgeStatus() {
+            const birthdate = birthdateInput.value;
+            const name = nameInput.value.trim();
+            
+            if (birthdate && name) {
+                const age = calculateAge(birthdate);
+                
+                if (age >= 21) {
+                    ageStatus.className = 'age-status valid';
+                    ageStatus.textContent = `✓ Age verified: ${age} years old. Welcome, ${name}!`;
+                    verifyButton.disabled = false;
+                    verifyButton.textContent = 'Enter Cannabis Store';
+                } else {
+                    ageStatus.className = 'age-status invalid';
+                    ageStatus.textContent = `✗ You must be 21 or older. You are ${age} years old.`;
+                    verifyButton.disabled = true;
+                    verifyButton.textContent = 'Age Verification Failed';
+                }
+            } else {
+                ageStatus.style.display = 'none';
+                verifyButton.disabled = true;
+                verifyButton.textContent = 'Complete Information to Continue';
+            }
+        }
+
+        // Real-time validation
+        birthdateInput.addEventListener('change', updateAgeStatus);
+        nameInput.addEventListener('input', updateAgeStatus);
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            const birthdate = birthdateInput.value;
+            const name = nameInput.value.trim();
+            
+            if (!birthdate || !name) {
+                e.preventDefault();
+                alert('Please complete all required fields.');
+                return;
+            }
+
+            const age = calculateAge(birthdate);
+            if (age < 21) {
+                e.preventDefault();
+                alert('You must be 21 or older to access our cannabis products.');
+                return;
+            }
+
+            // Show loading state
+            verifyButton.textContent = 'Verifying...';
+            verifyButton.disabled = true;
+        });
+
+        // Initial check
+        updateAgeStatus();
+    });
+    </script>
+</body>
+</html>

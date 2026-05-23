@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Positioning Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Navigation Bar Simulation */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(to right, #ffffff, #f9fafb);
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+        }
+
+        .nav-left {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            color: white;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+            margin-right: 320px;
+            padding: 2rem;
+            background: #f8fafc;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Cart Panel */
+        .cart-panel {
+            position: fixed;
+            top: 120px;
+            right: 0;
+            width: 320px;
+            height: calc(100vh - 120px);
+            background: linear-gradient(to bottom, #ffffff, #f9fafb);
+            border-left: 1px solid #e5e7eb;
+            box-shadow: -4px 0 6px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        /* Mobile Cart Toggle */
+        .mobile-cart-toggle {
+            position: fixed;
+            top: 140px;
+            right: 10px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 60;
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-right: 0;
+            }
+
+            .cart-panel {
+                transform: translateX(100%);
+            }
+
+            .mobile-cart-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Visual indicators */
+        .test-zone {
+            background: rgba(13, 148, 136, 0.1);
+            border: 2px dashed #0d9488;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+        }
+
+        .overlap-indicator {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            padding: 0.5rem;
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .success-indicator {
+            background: rgba(34, 197, 94, 0.1);
+            border: 2px solid #22c55e;
+            padding: 0.5rem;
+            color: #16a34a;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-left">
+            <a href="#" class="nav-item">
+                <span>🌿</span>
+                <span>Browse</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span>⭐</span>
+                <span>Specials</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span>ℹ️</span>
+                <span>About</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span>❓</span>
+                <span>Help</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <div>
+                <div>Order #: <strong>OCH-2024-001</strong></div>
+                <div style="color: #059669;">✅ Age Verified</div>
+            </div>
+            <a href="#"
+                style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; text-decoration: none; color: #374151;">
+                ← Welcome
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: #0d9488;">Browse Products</h1>
+        <p style="color: #64748b; margin-bottom: 2rem;">Discover our premium cannabis selection</p>
+
+        <div class="test-zone">
+            <h3 style="color: #0d9488; margin-bottom: 0.5rem;">✅ Main Content Area</h3>
+            <p>This area should be visible and not overlapped by the cart panel.</p>
+            <p>The cart panel should float to the right, positioned below the navigation bar.</p>
+        </div>
+
+        <div class="success-indicator">
+            <h3>Navigation Test Results:</h3>
+            <ul style="margin-top: 0.5rem; padding-left: 1rem;">
+                <li>✅ Navigation bar: Fixed at top (height: 120px)</li>
+                <li>✅ Cart panel: Positioned at top: 120px (below nav)</li>
+                <li>✅ Mobile toggle: Positioned at top: 140px (below nav)</li>
+                <li>✅ Main content: Margin-top: 120px (below nav)</li>
+                <li>✅ No overlap between navigation and cart elements</li>
+            </ul>
+        </div>
+
+        <!-- Sample product cards -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+            <div
+                style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                <h3 style="color: #374151; margin-bottom: 0.5rem;">Sample Product 1</h3>
+                <p style="color: #6b7280; font-size: 0.875rem;">Premium cannabis product with detailed information...
+                </p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                    <span style="font-size: 1.5rem; font-weight: bold; color: #0d9488;">$45.00</span>
+                </div>
+            </div>
+            <div
+                style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                <h3 style="color: #374151; margin-bottom: 0.5rem;">Sample Product 2</h3>
+                <p style="color: #6b7280; font-size: 0.875rem;">Another premium cannabis product...</p>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                    <span style="font-size: 1.5rem; font-weight: bold; color: #0d9488;">$38.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Panel -->
+    <div class="cart-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.25rem; font-weight: bold; color: #374151;">Your Order</h2>
+            <div
+                style="width: 2rem; height: 2rem; background: linear-gradient(to right, #0d9488, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                0
+            </div>
+        </div>
+
+        <div class="success-indicator" style="margin-bottom: 1rem;">
+            <h3>Cart Panel Position Test:</h3>
+            <p style="margin-top: 0.5rem;">✅ Positioned correctly below navigation</p>
+            <p>✅ No overlap with nav elements</p>
+            <p>✅ Full height minus nav bar height</p>
+        </div>
+
+        <div style="text-align: center; padding: 2rem; color: #6b7280;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🛒</div>
+            <p>Your order is empty</p>
+            <p style="font-size: 0.875rem; margin-top: 0.25rem;">Add some products to get started!</p>
+        </div>
+
+        <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+            <button
+                style="width: 100%; padding: 0.75rem; background: #d1d5db; color: #6b7280; border: none; border-radius: 0.5rem; margin-bottom: 0.5rem; cursor: not-allowed;">
+                Complete Order
+            </button>
+            <button
+                style="width: 100%; padding: 0.75rem; background: white; color: #6b7280; border: 1px solid #d1d5db; border-radius: 0.5rem;">
+                Clear Order
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Cart Toggle -->
+    <button class="mobile-cart-toggle" title="View Your Order">
+        🛒
+        <span
+            style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 0.75rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
+    </button>
+
+    <script>
+        // Simple responsive test
+        function checkLayout() {
+            const nav = document.querySelector('.nav-bar');
+            const cart = document.querySelector('.cart-panel');
+            const toggle = document.querySelector('.mobile-cart-toggle');
+
+            const navHeight = nav.offsetHeight;
+            const cartTop = parseInt(getComputedStyle(cart).top);
+            const toggleTop = parseInt(getComputedStyle(toggle).top);
+
+            console.log('Layout Test Results:');
+            console.log(`Navigation height: ${navHeight}px`);
+            console.log(`Cart top position: ${cartTop}px`);
+            console.log(`Mobile toggle top: ${toggleTop}px`);
+
+            if (cartTop >= navHeight) {
+                console.log('✅ Cart positioned correctly below navigation');
+            } else {
+                console.log('❌ Cart overlaps with navigation');
+            }
+
+            if (toggleTop > navHeight) {
+                console.log('✅ Mobile toggle positioned correctly below navigation');
+            } else {
+                console.log('❌ Mobile toggle overlaps with navigation');
+            }
+        }
+
+        // Run test on load and resize
+        window.addEventListener('load', checkLayout);
+        window.addEventListener('resize', checkLayout);
+
+        // Mobile cart toggle
+        document.querySelector('.mobile-cart-toggle').addEventListener('click', function () {
+            const cart = document.querySelector('.cart-panel');
+            if (cart.style.transform === 'translateX(0px)') {
+                cart.style.transform = 'translateX(100%)';
+            } else {
+                cart.style.transform = 'translateX(0px)';
+            }
+        });
+    </script>
+</body>
+
+</html>

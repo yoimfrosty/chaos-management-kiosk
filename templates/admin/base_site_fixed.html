@@ -1,0 +1,679 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | Ocean City Hemp Kiosk Admin{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">Ocean City Hemp Kiosk Admin</a></h1>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    /* COMPLETE ADMIN CSS RESET AND FIX */
+    
+    /* STEP 1: Hide ALL potential kiosk interference */
+    .modern-header, 
+    .category-nav, 
+    .fixed-action-bar, 
+    .toast-container, 
+    .order-popup,
+    .toast,
+    .card,
+    .card-elevated,
+    .button-primary,
+    #kiosk-header,
+    .kiosk-content,
+    .product-grid,
+    .filters-dropdown,
+    .action-btn,
+    .category-title,
+    .product-card,
+    .kiosk-specific,
+    [class*="kiosk"],
+    [id*="kiosk"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        left: -99999px !important;
+        top: -99999px !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* STEP 2: Complete HTML/Body reset */
+    html {
+        height: 100% !important;
+        background: #f8f9fa !important;
+        font-size: 100% !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    body {
+        font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+        font-size: 12px !important;
+        line-height: 1.6 !important;
+        color: #333 !important;
+        background: #f8f9fa !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        direction: ltr !important;
+        min-height: 100vh !important;
+        position: static !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        text-align: left !important;
+    }
+
+    /* STEP 3: Remove ALL pseudo-elements from kiosk */
+    body::before, 
+    body::after,
+    html::before,
+    html::after,
+    *::before,
+    *::after {
+        display: none !important;
+        content: none !important;
+        background: none !important;
+        position: static !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+
+    /* STEP 4: Complete positioning reset */
+    * {
+        position: static !important;
+        z-index: auto !important;
+        box-sizing: border-box !important;
+        float: none !important;
+    }
+
+    /* STEP 5: Admin container structure */
+    #header {
+        position: relative !important;
+        z-index: 1000 !important;
+        background: #417690 !important;
+        color: #ffc !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        clear: both !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    #branding {
+        float: left !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: auto !important;
+        background: transparent !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    #branding h1,
+    #branding h1 a {
+        padding: 8px 10px !important;
+        margin: 0 !important;
+        font-weight: normal !important;
+        font-size: 18px !important;
+        color: #f4f2f0 !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        line-height: 1.2 !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    #user-tools {
+        float: right !important;
+        padding: 1.2rem !important;
+        font-size: 11px !important;
+        text-align: right !important;
+        margin: 0 !important;
+        color: #ffc !important;
+        background: transparent !important;
+        width: auto !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    #user-tools a {
+        color: #ffc !important;
+        text-decoration: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 5px !important;
+        position: static !important;
+        display: inline !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    #user-tools a:hover,
+    #user-tools a:focus {
+        color: #79aec8 !important;
+        border-bottom-color: #79aec8 !important;
+        text-decoration: none !important;
+    }
+
+    /* STEP 6: Container and content */
+    #container {
+        position: relative !important;
+        z-index: 999 !important;
+        width: 100% !important;
+        background: #fff !important;
+        clear: both !important;
+        min-height: calc(100vh - 40px) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    .breadcrumbs {
+        background: #79aec8 !important;
+        padding: 10px 40px !important;
+        border: none !important;
+        font-size: 11px !important;
+        color: #c4dce8 !important;
+        text-align: left !important;
+        margin: 0 !important;
+        clear: both !important;
+        width: 100% !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    .breadcrumbs a {
+        color: #c4dce8 !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        position: static !important;
+        display: inline !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    .breadcrumbs a:hover,
+    .breadcrumbs a:focus {
+        color: #fcfcfc !important;
+        text-decoration: none !important;
+    }
+
+    #content {
+        position: relative !important;
+        z-index: 998 !important;
+        background: #fff !important;
+        padding: 20px 40px !important;
+        clear: both !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        min-height: calc(100vh - 120px) !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    #content-main {
+        position: relative !important;
+        z-index: 997 !important;
+        width: 100% !important;
+        float: none !important;
+        clear: both !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* STEP 7: Form elements */
+    input, select, textarea {
+        font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+        font-size: 12px !important;
+        padding: 5px 6px !important;
+        margin: 2px 0 !important;
+        border: 1px solid #ccc !important;
+        background: #fff !important;
+        color: #333 !important;
+        border-radius: 3px !important;
+        box-shadow: none !important;
+        outline: none !important;
+        position: static !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+        width: auto !important;
+        height: auto !important;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #79aec8 !important;
+        box-shadow: 0 0 3px rgba(121, 174, 200, 0.3) !important;
+    }
+
+    /* STEP 8: Buttons */
+    .button, 
+    input[type=submit], 
+    input[type=button], 
+    .submit-row input,
+    a.button {
+        background: #417690 !important;
+        padding: 10px 15px !important;
+        border: 1px solid #205067 !important;
+        border-radius: 4px !important;
+        color: #fff !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        font-size: 12px !important;
+        line-height: normal !important;
+        margin: 0 5px 0 0 !important;
+        display: inline-block !important;
+        font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+        font-weight: normal !important;
+        box-shadow: none !important;
+        transition: background-color 0.2s ease !important;
+        position: static !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+        width: auto !important;
+        height: auto !important;
+    }
+
+    .button:active, 
+    .button:focus, 
+    .button:hover, 
+    input[type=submit]:active, 
+    input[type=submit]:focus, 
+    input[type=submit]:hover, 
+    input[type=button]:active, 
+    input[type=button]:focus, 
+    input[type=button]:hover,
+    .submit-row input:hover,
+    a.button:hover {
+        background: #205067 !important;
+        color: #fff !important;
+        text-decoration: none !important;
+        border-color: #205067 !important;
+    }
+
+    /* STEP 9: Tables */
+    table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        width: 100% !important;
+        background: #fff !important;
+        margin: 10px 0 !important;
+        border: 1px solid #ddd !important;
+        font-size: 12px !important;
+        clear: both !important;
+        position: static !important;
+        display: table !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    th, td {
+        text-align: left !important;
+        vertical-align: top !important;
+        padding: 8px 10px !important;
+        background: #fff !important;
+        color: #333 !important;
+        border-bottom: 1px solid #ddd !important;
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+        position: static !important;
+        display: table-cell !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    th {
+        background: #f8f9fa !important;
+        border-bottom: 1px solid #dee2e6 !important;
+        font-weight: 600 !important;
+        color: #495057 !important;
+    }
+
+    tr {
+        position: static !important;
+        display: table-row !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    tr:hover {
+        background: #f8f9fa !important;
+    }
+
+    /* STEP 10: Changelist and admin lists */
+    #changelist {
+        position: relative !important;
+        width: 100% !important;
+        background: #fff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        clear: both !important;
+        border: none !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    #changelist .actions {
+        padding: 8px !important;
+        border-bottom: 1px solid #ddd !important;
+        background: #f8f9fa !important;
+        margin: 0 !important;
+        clear: both !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    #changelist-search {
+        background: #f8f9fa !important;
+        border-bottom: 1px solid #ddd !important;
+        margin: 0 !important;
+        padding: 8px !important;
+        clear: both !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    #result_list {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin: 0 !important;
+        background: #fff !important;
+        position: static !important;
+        display: table !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    /* STEP 11: Forms */
+    .form-row {
+        overflow: hidden !important;
+        padding: 10px !important;
+        font-size: 12px !important;
+        border-bottom: 1px solid #eee !important;
+        margin: 0 !important;
+        clear: both !important;
+        background: #fff !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    .form-row label {
+        font-weight: normal !important;
+        color: #666 !important;
+        font-size: 12px !important;
+        float: left !important;
+        width: 150px !important;
+        padding-right: 10px !important;
+        margin: 0 !important;
+        line-height: 1.6 !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* STEP 12: Typography */
+    h1, h2, h3, h4, h5, h6 {
+        color: #333 !important;
+        font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+        font-weight: bold !important;
+        margin: 0.5em 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    h1 {
+        font-size: 18px !important;
+        margin: 0 0 20px !important;
+        font-weight: 300 !important;
+    }
+
+    h2 {
+        font-size: 16px !important;
+        margin: 1em 0 0.5em 0 !important;
+    }
+
+    /* STEP 13: Links */
+    a:link, a:visited {
+        color: #417893 !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: static !important;
+        display: inline !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    a:focus, a:hover {
+        color: #036 !important;
+        text-decoration: underline !important;
+    }
+
+    /* STEP 14: Error handling */
+    .errorlist {
+        margin: 0 0 4px !important;
+        padding: 0 !important;
+        color: #ba2121 !important;
+        background: #fff !important;
+        list-style: none !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    .errorlist li {
+        font-size: 12px !important;
+        display: block !important;
+        padding: 4px 5px !important;
+        margin: 0 !important;
+        border: 1px solid #ba2121 !important;
+        color: #ba2121 !important;
+        background: #ffefef !important;
+        position: static !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    /* STEP 15: Messages */
+    .messagelist {
+        padding: 0 !important;
+        margin: 0 !important;
+        list-style: none !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    .messagelist li {
+        display: block !important;
+        font-weight: 400 !important;
+        font-size: 12px !important;
+        padding: 10px 10px 10px 65px !important;
+        margin: 0 0 3px 0 !important;
+        border-radius: 4px !important;
+        color: #333 !important;
+        word-break: break-word !important;
+        position: static !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    .messagelist li.success {
+        background: #dfd !important;
+        color: #333 !important;
+    }
+
+    .messagelist li.warning {
+        background: #ffc !important;
+        color: #333 !important;
+    }
+
+    .messagelist li.error {
+        background: #ffefef !important;
+        color: #333 !important;
+    }
+
+    /* STEP 16: Pagination */
+    .paginator {
+        font-size: 11px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        line-height: 22px !important;
+        margin: 0 !important;
+        border-top: 1px solid #ddd !important;
+        clear: both !important;
+        background: #fff !important;
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+    }
+
+    /* STEP 17: Final cleanup and force visibility */
+    .module,
+    .module h2,
+    .module caption,
+    .inline-group,
+    .grp-group,
+    .submit-row {
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+        background: #fff !important;
+        color: #333 !important;
+    }
+
+    /* STEP 18: Clearfix helpers */
+    .clearfix::after,
+    #header::after,
+    #content::after,
+    #container::after,
+    .form-row::after {
+        content: "" !important;
+        display: table !important;
+        clear: both !important;
+        position: static !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* STEP 19: Force specific admin elements to display */
+    #changelist-filter,
+    .actions,
+    .paginator,
+    .results,
+    #toolbar,
+    .breadcrumbs,
+    #content-related,
+    .object-tools {
+        position: static !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        float: none !important;
+        background: transparent !important;
+        width: auto !important;
+        height: auto !important;
+    }
+
+    /* STEP 20: Remove any remaining kiosk interference */
+    body:not(.admin) * {
+        position: static !important;
+    }
+
+    /* Final override for any stubborn elements */
+    [style*="position: fixed"],
+    [style*="position: absolute"],
+    [style*="z-index"] {
+        position: static !important;
+        z-index: auto !important;
+    }
+</style>
+{% endblock %}

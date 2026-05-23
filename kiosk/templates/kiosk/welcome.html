@@ -1,0 +1,143 @@
+{% extends 'kiosk/base.html' %}
+
+{% block title %}Welcome - Ocean City Hemp Kiosk{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center text-center">
+    <!-- Enhanced Welcome Card -->
+    <div class="card card-elevated max-w-5xl mx-auto">
+        <!-- Compact Header -->
+        <div class="mb-8">
+            <div class="w-28 h-28 bg-gradient-to-br from-teal-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl floating-animation border-4 border-white">
+                <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 1c-.5 0-1 .2-1.4.6L9.2 3c-.8.8-2 .8-2.8 0-.8-.8-.8-2 0-2.8L7.8.8C8.2.4 8.7.2 9.2.2c.5 0 1 .2 1.4.6.8.8 2 .8 2.8 0 .8-.8 2-.8 2.8 0l1.4 1.4c.4.4.6.9.6 1.4 0 .5-.2 1-.6 1.4-.8.8-.8 2 0 2.8.8.8.8 2 0 2.8-.4.4-.9.6-1.4.6-.5 0-1-.2-1.4-.6-.8-.8-2-.8-2.8 0-.8.8-2 .8-2.8 0-.4-.4-.6-.9-.6-1.4 0-.5.2-1 .6-1.4.8-.8.8-2 0-2.8-.8-.8-.8-2 0-2.8L10.6 1.6c.4-.4.9-.6 1.4-.6z"/>
+                    <path d="M12 7l-1.5 3.5L7 12l3.5 1.5L12 17l1.5-3.5L17 12l-3.5-1.5L12 7z"/>
+                    <path d="M6 8l-.8 1.8L3.4 10.5l1.8.7L6 13l.8-1.8 1.8-.7-1.8-.7L6 8z"/>
+                    <path d="M18 8l-.8 1.8-1.8.7 1.8.7L18 13l.8-1.8 1.8-.7-1.8-.7L18 8z"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold glow-text mb-4">Welcome to Ocean City Hemp</h1>
+            <div class="w-20 h-1 bg-gradient-to-r from-ocean-green to-ocean-blue mx-auto mb-4 rounded-full"></div>
+            <p class="text-xl text-gray-600 mb-6 font-medium">Your Premium Cannabis Experience Awaits</p>
+        </div>
+
+        <!-- Start Order Button - Prominently placed -->
+        <div class="text-center mb-8">
+            {% if not request.session.is_21_plus %}
+                <div class="mb-4">
+                    <div class="inline-flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-amber-100 to-orange-100 rounded-full border border-amber-200 mb-4">
+                        <svg class="w-6 h-6 text-amber-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 1c-.5 0-1 .2-1.4.6L9.2 3c-.8.8-2 .8-2.8 0-.8-.8-.8-2 0-2.8L7.8.8C8.2.4 8.7.2 9.2.2c.5 0 1 .2 1.4.6.8.8 2 .8 2.8 0 .8-.8 2-.8 2.8 0l1.4 1.4c.4.4.6.9.6 1.4 0 .5-.2 1-.6 1.4-.8.8-.8 2 0 2.8.8.8.8 2 0 2.8-.4.4-.9.6-1.4.6-.5 0-1-.2-1.4-.6-.8-.8-2-.8-2.8 0-.8.8-2 .8-2.8 0-.4-.4-.6-.9-.6-1.4 0-.5.2-1 .6-1.4.8-.8.8-2 0-2.8-.8-.8-.8-2 0-2.8L10.6 1.6c.4-.4.9-.6 1.4-.6z"/>
+                            <circle cx="12" cy="15" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <text x="12" y="19" text-anchor="middle" font-size="8" fill="currentColor">21</text>
+                        </svg>
+                        <span class="font-semibold text-amber-800">Age verification required to continue</span>
+                    </div>
+                </div>
+                <a href="{% url 'kiosk:verify_age' %}" class="button-primary text-2xl py-6 px-12 pulse-animation shadow-xl">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 1c-.5 0-1 .2-1.4.6L9.2 3c-.8.8-2 .8-2.8 0-.8-.8-.8-2 0-2.8L7.8.8C8.2.4 8.7.2 9.2.2c.5 0 1 .2 1.4.6.8.8 2 .8 2.8 0 .8-.8 2-.8 2.8 0l1.4 1.4c.4.4.6.9.6 1.4 0 .5-.2 1-.6 1.4-.8.8-.8 2 0 2.8.8.8.8 2 0 2.8-.4.4-.9.6-1.4.6-.5 0-1-.2-1.4-.6-.8-.8-2-.8-2.8 0-.8.8-2 .8-2.8 0-.4-.4-.6-.9-.6-1.4 0-.5.2-1 .6-1.4.8-.8.8-2 0-2.8-.8-.8-.8-2 0-2.8L10.6 1.6c.4-.4.9-.6 1.4-.6z"/>
+                        <path d="M12 7l-1.5 3.5L7 12l3.5 1.5L12 17l1.5-3.5L17 12l-3.5-1.5L12 7z"/>
+                        <path d="M6 8l-.8 1.8L3.4 10.5l1.8.7L6 13l.8-1.8 1.8-.7-1.8-.7L6 8z"/>
+                        <path d="M18 8l-.8 1.8-1.8.7 1.8.7L18 13l.8-1.8 1.8-.7-1.8-.7L18 8z"/>
+                    </svg> Start Your Order
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Compact Features Grid - Above the fold -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-100 hover:shadow-lg transition-all duration-300 group">
+                <div class="feature-icon group-hover:scale-110 transition-transform duration-300 mb-3 w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-xl border-2 border-white">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 1c-.5 0-1 .2-1.4.6L9.2 3c-.8.8-2 .8-2.8 0-.8-.8-.8-2 0-2.8L7.8.8C8.2.4 8.7.2 9.2.2c.5 0 1 .2 1.4.6.8.8 2 .8 2.8 0 .8-.8 2-.8 2.8 0l1.4 1.4c.4.4.6.9.6 1.4 0 .5-.2 1-.6 1.4-.8.8-.8 2 0 2.8.8.8.8 2 0 2.8-.4.4-.9.6-1.4.6-.5 0-1-.2-1.4-.6-.8-.8-2-.8-2.8 0-.8.8-2 .8-2.8 0-.4-.4-.6-.9-.6-1.4 0-.5.2-1 .6-1.4.8-.8.8-2 0-2.8-.8-.8-.8-2 0-2.8L10.6 1.6c.4-.4.9-.6 1.4-.6z"/>
+                        <path d="M12 7l-1.5 3.5L7 12l3.5 1.5L12 17l1.5-3.5L17 12l-3.5-1.5L12 7z"/>
+                        <path d="M6 8l-.8 1.8L3.4 10.5l1.8.7L6 13l.8-1.8 1.8-.7-1.8-.7L6 8z"/>
+                        <path d="M18 8l-.8 1.8-1.8.7 1.8.7L18 13l.8-1.8 1.8-.7-1.8-.7L18 8z"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2">Easy Ordering</h3>
+                <p class="text-gray-600 text-sm">Browse and order with just a few taps</p>
+            </div>
+            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 hover:shadow-lg transition-all duration-300 group">
+                <div class="feature-icon group-hover:scale-110 transition-transform duration-300 mb-3 w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto shadow-xl border-2 border-white">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/>
+                        <path d="M17 9H19V11H21V13H19V15H17V13H15V11H17V9Z"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2">Expert Guidance</h3>
+                <p class="text-gray-600 text-sm">Knowledgeable staff available to assist</p>
+            </div>
+            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-100 hover:shadow-lg transition-all duration-300 group">
+                <div class="feature-icon group-hover:scale-110 transition-transform duration-300 mb-3 w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto shadow-xl border-2 border-white">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 1L9 9L1 9L7.5 14L5 22L12 17L19 22L16.5 14L23 9L15 9L12 1Z"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2">Premium Quality</h3>
+                <p class="text-gray-600 text-sm">Carefully selected, lab-tested products from trusted cultivators</p>
+            </div>
+            <div class="text-center p-4 rounded-xl bg-gradient-to-br from-gray-50 to-slate-50 border border-gray-100 hover:shadow-lg transition-all duration-300 group">
+                <div class="feature-icon group-hover:scale-110 transition-transform duration-300 mb-3 w-16 h-16 bg-gradient-to-br from-gray-600 to-slate-700 rounded-full flex items-center justify-center mx-auto shadow-xl border-2 border-white">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 8H17V6C17 3.24 14.76 1 12 1S7 3.24 7 6V8H6C4.9 8 4 8.9 4 10V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V10C20 8.9 19.1 8 18 8ZM12 17C10.9 17 10 16.1 10 15S10.9 13 12 13S14 13.9 14 15S13.1 17 12 17ZM15.1 8H8.9V6C8.9 4.29 10.29 2.9 12 2.9S15.1 4.29 15.1 6V8Z"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2">Private & Secure</h3>
+                <p class="text-gray-600 text-sm">Completely discreet ordering experience with secure payment</p>
+            </div>
+        </div>
+
+        <!-- Enhanced Start Order Section -->
+        <div class="text-center">
+            {% if request.session.is_21_plus %}
+                <div class="mb-6 p-4 bg-gradient-to-r from-green-100 to-emerald-100 border-2 border-green-300 rounded-xl shadow-lg">
+                    <div class="flex items-center justify-center space-x-3 mb-2">
+                        <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        <h3 class="text-lg font-bold text-green-800">Age Verified - Ready to Shop!</h3>
+                    </div>
+                    <p class="text-green-700 font-medium">You may now browse our premium cannabis products and place your order.</p>
+                </div>
+                <a href="{% url 'kiosk:product_list' %}" class="button-primary text-xl py-4 px-8 mb-4 pulse-animation">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 1c-.5 0-1 .2-1.4.6L9.2 3c-.8.8-2 .8-2.8 0-.8-.8-.8-2 0-2.8L7.8.8C8.2.4 8.7.2 9.2.2c.5 0 1 .2 1.4.6.8.8 2 .8 2.8 0 .8-.8 2-.8 2.8 0l1.4 1.4c.4.4.6.9.6 1.4 0 .5-.2 1-.6 1.4-.8.8-.8 2 0 2.8.8.8.8 2 0 2.8-.4.4-.9.6-1.4.6-.5 0-1-.2-1.4-.6-.8-.8-2-.8-2.8 0-.8.8-2 .8-2.8 0-.4-.4-.6-.9-.6-1.4 0-.5.2-1 .6-1.4.8-.8.8-2 0-2.8-.8-.8-.8-2 0-2.8L10.6 1.6c.4-.4.9-.6 1.4-.6z"/>
+                        <path d="M12 7l-1.5 3.5L7 12l3.5 1.5L12 17l1.5-3.5L17 12l-3.5-1.5L12 7z"/>
+                        <path d="M6 8l-.8 1.8L3.4 10.5l1.8.7L6 13l.8-1.8 1.8-.7-1.8-.7L6 8z"/>
+                        <path d="M18 8l-.8 1.8-1.8.7 1.8.7L18 13l.8-1.8 1.8-.7-1.8-.7L18 8z"/>
+                    </svg> Browse Products Now
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add hover effects to feature cards
+        const featureCards = document.querySelectorAll('.group');
+        featureCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+        
+        // Add click animation to main CTA button
+        const ctaButton = document.querySelector('.button-primary');
+        if (ctaButton) {
+            ctaButton.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        }
+    });
+</script>
+{% endblock %}

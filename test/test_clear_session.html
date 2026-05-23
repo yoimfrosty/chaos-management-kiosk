@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Session Button Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        
+        button:hover {
+            background: #dc2626;
+        }
+        
+        .log {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            z-index: 9999;
+        }
+        
+        .toast.success {
+            background: #10b981;
+        }
+        
+        .toast.error {
+            background: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clear Session Button Test</h1>
+    
+    <p>This page tests the clear session functionality in isolation.</p>
+    
+    <button id="clearSessionBtn">🗑️ Clear Session</button>
+    <button id="getCSRFBtn">Get CSRF Token</button>
+    <button id="testEndpointBtn">Test Endpoint</button>
+    
+    <div id="log" class="log">Console log will appear here...\n</div>
+    
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    
+    <script>
+        const log = document.getElementById('log');
+        
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            log.textContent += `[${timestamp}] ${message}\n`;
+            log.scrollTop = log.scrollHeight;
+            console.log(message);
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        // Clear Session functionality
+        document.getElementById('clearSessionBtn').addEventListener('click', function() {
+            addLog('Clear session button clicked');
+            
+            // Show confirmation dialog
+            if (confirm('⚠️ This will clear all your items and start a new session. Are you sure?')) {
+                addLog('User confirmed session clear');
+                
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                addLog(`CSRF Token: ${csrfToken ? csrfToken.substring(0, 10) + '...' : 'NOT FOUND'}`);
+                
+                // Clear session and redirect
+                fetch('/clear-session/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    addLog(`Response status: ${response.status}`);
+                    addLog(`Response content-type: ${response.headers.get('content-type')}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    addLog(`Response data: ${JSON.stringify(data)}`);
+                    
+                    if (data.success) {
+                        showToast('🗑️ Session cleared! Redirecting to start...', 'success');
+                        addLog('Session cleared successfully');
+                        
+                        // Redirect to age verification after a short delay
+                        setTimeout(() => {
+                            addLog('Redirecting to age verification...');
+                            window.location.href = '/';
+                        }, 1500);
+                    } else {
+                        addLog(`Clear session failed: ${JSON.stringify(data)}`);
+                        showToast('❌ Error clearing session. Please try again.', 'error');
+                    }
+                })
+                .catch(error => {
+                    addLog(`Clear session error: ${error.message}`);
+                    addLog(`Error stack: ${error.stack}`);
+                    showToast('❌ Error clearing session. Please try again.', 'error');
+                });
+            } else {
+                addLog('User cancelled session clear');
+            }
+        });
+        
+        // Get CSRF Token button
+        document.getElementById('getCSRFBtn').addEventListener('click', function() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            addLog(`CSRF Token: ${csrfToken || 'NOT FOUND'}`);
+        });
+        
+        // Test endpoint button
+        document.getElementById('testEndpointBtn').addEventListener('click', function() {
+            addLog('Testing endpoint...');
+            
+            fetch('/clear-session/', {
+                method: 'GET'
+            })
+            .then(response => {
+                addLog(`GET Response status: ${response.status}`);
+                addLog(`GET Response content-type: ${response.headers.get('content-type')}`);
+                return response.text();
+            })
+            .then(data => {
+                addLog(`GET Response length: ${data.length} characters`);
+            })
+            .catch(error => {
+                addLog(`GET Error: ${error.message}`);
+            });
+        });
+        
+        addLog('Page loaded, test buttons ready');
+    </script>
+</body>
+</html>
