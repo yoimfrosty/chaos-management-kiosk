@@ -1,4 +1,9 @@
-Django~=4.2
-Pillow
-python-dotenv
-python-dateutil
+asgiref==3.11.1
+Django==4.2.30
+gunicorn==26.0.0
+packaging==26.2
+pillow==12.2.0
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.2
+six==1.17.0
+sqlparse==0.5.5
