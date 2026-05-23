@@ -130,13 +130,5 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "mediafiles"
 
-
-# CSRF trusted origins for DigitalOcean
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.ondigitalocean.app",
-    "https://whale-app-pcttw.ondigitalocean.app",
-]
-
-
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
