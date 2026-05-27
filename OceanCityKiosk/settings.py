@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "storages",
     "kiosk.apps.KioskConfig",
 ]
 
@@ -133,18 +134,38 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# DigitalOcean Spaces / uploaded product images
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
+AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME", "sfo3")
+AWS_QUERYSTRING_AUTH = False
+AWS_DEFAULT_ACL = "public-read"
 
-# Media files
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "mediafiles"
+if AWS_STORAGE_BUCKET_NAME:
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_REGION_NAME}.digitaloceanspaces.com"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
 
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+else:
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "mediafiles"
+
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
